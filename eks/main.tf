@@ -1,5 +1,6 @@
 provider "aws" {
   region = var.region
+  alias  = var.region
 }
 
 provider "aws" {
@@ -97,7 +98,7 @@ module "eks" {
 ################################################################################
 
 module "karpenter" {
-  source = "terraform-aws-modules/eks/aws/modules/karpenter"
+  source = "terraform-aws-modules/eks/aws//modules/karpenter"
 
   cluster_name = module.eks.cluster_name
 
@@ -109,11 +110,11 @@ module "karpenter" {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
 
-  tags = local.tags
+  tags = var.tags
 }
 
 module "karpenter_disabled" {
-  source = "terraform-aws-modules/eks/aws/modules/karpenter"
+  source = "terraform-aws-modules/eks/aws//modules/karpenter"
 
   create = false
 }
