@@ -35,7 +35,7 @@ module "vpc" {
   public_subnet_assign_ipv6_address_on_creation = true
   public_subnet_ipv6_prefixes                   = [0, 1, 2]
 
-  azs                                             = slice(data.aws_availability_zones.available.names, 0, 3)
+  azs                                             = slice(data.aws_availability_zones.this.names, 0, 3)
   cidr                                            = var.vpc_cidr
   create_flow_log_cloudwatch_iam_role             = true
   create_flow_log_cloudwatch_log_group            = true
