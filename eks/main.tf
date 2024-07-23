@@ -8,7 +8,7 @@
 # }
 
  terraform {
-  required_version = "~> 1.8.1"
+  required_version = ">= 1.3.2"
 
   required_providers {
     aws = {
