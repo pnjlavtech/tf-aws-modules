@@ -1,12 +1,11 @@
 provider "aws" {
   region = var.region
-  alias  = var.region
 }
 
-provider "aws" {
-  region = "us-west-2"
-  alias  = "oregon"
-}
+# provider "aws" {
+#   region = "us-west-2"
+#   alias  = "oregon"
+# }
 
 provider "helm" {
   kubernetes {
