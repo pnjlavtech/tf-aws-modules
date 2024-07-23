@@ -1,11 +1,31 @@
-provider "aws" {
-  region = var.region
-}
+# provider "aws" {
+#   region = var.region
+# }
 
 # provider "aws" {
 #   region = "us-west-2"
 #   alias  = "oregon"
 # }
+
+ terraform {
+  required_version = "~> 1.8.1"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.50"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.13.1"
+    }
+    kubectl = {
+      source  = "alekc/kubectl"
+      version = ">= 2.0"
+    }
+  }
+}
+
 
 provider "helm" {
   kubernetes {
