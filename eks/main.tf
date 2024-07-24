@@ -14,6 +14,8 @@
     aws = {
       source  = "hashicorp/aws"
       version = ">= 5.50"
+      region = "us-west-2"
+      alias  = "oregon"
     }
     helm = {
       source  = "hashicorp/helm"
