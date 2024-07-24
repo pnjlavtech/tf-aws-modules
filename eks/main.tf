@@ -14,8 +14,6 @@ provider "aws" {
     aws = {
       source  = "hashicorp/aws"
       version = ">= 5.50"
-      # region = "us-west-2"
-      # alias  = "oregon"
     }
     helm = {
       source  = "hashicorp/helm"
@@ -81,9 +79,9 @@ module "eks" {
     vpc-cni                = {}
   }
 
-  vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.private_subnets
-  control_plane_subnet_ids = module.vpc.intra_subnets
+  vpc_id                   = var.vpc_id
+  subnet_ids               = var.private_subnets
+  control_plane_subnet_ids = var.intra_subnets
 
   eks_managed_node_groups = {
     karpenter = {
