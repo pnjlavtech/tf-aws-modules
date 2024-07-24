@@ -2,10 +2,10 @@
 #   region = var.region
 # }
 
-# provider "aws" {
-#   region = "us-west-2"
-#   alias  = "oregon"
-# }
+provider "aws" {
+  region = "us-west-2"
+  alias  = "oregon"
+}
 
  terraform {
   required_version = ">= 1.3.2"
@@ -14,8 +14,8 @@
     aws = {
       source  = "hashicorp/aws"
       version = ">= 5.50"
-      region = "us-west-2"
-      alias  = "oregon"
+      # region = "us-west-2"
+      # alias  = "oregon"
     }
     helm = {
       source  = "hashicorp/helm"
