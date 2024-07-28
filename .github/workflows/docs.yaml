@@ -13,7 +13,7 @@ jobs:
       contents: write
     steps:
       - name: Pull request checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
         id: checkout
         with:
           ref: ${{ github.event.pull_request.head.ref }}
@@ -22,6 +22,6 @@ jobs:
         id: tfdocs
         with:
           find-dir: ./
-          output-file: readme.md
+          output-file: README.md
           output-method: inject
           git-push: "true"
