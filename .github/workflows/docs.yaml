@@ -21,7 +21,7 @@ jobs:
         uses: terraform-docs/gh-actions@main
         id: tfdocs
         with:
-          find-dir: ./modules
+          find-dir: ./
           output-file: readme.md
           output-method: inject
           git-push: "true"
