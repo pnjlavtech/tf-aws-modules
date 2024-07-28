@@ -1,9 +1,10 @@
 # Karpenter Example
 
-Configuration in this directory creates an AWS EKS cluster with [Karpenter](https://karpenter.sh/) provisioned for managing compute resource scaling. In the example provided, Karpenter is provisioned on top of an EKS Managed Node Group.
+Configuration in this directory creates an AWS EKS cluster with [Karpenter](https://karpenter.sh/) provisioned for managing compute resource scaling. 
+
+In the example provided, Karpenter is provisioned on top of an EKS Managed Node Group.
 
 ## Usage
-
 
 Once the cluster is up and running, you can check that Karpenter is functioning as intended with the following command:
 
@@ -53,7 +54,7 @@ kubectl delete node -l karpenter.sh/provisioner-name=default
 terraform destroy --auto-approve
 ```
 
-Note that this example may create resources which cost money. Run `terraform destroy` when you don't need these resources.
+
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
