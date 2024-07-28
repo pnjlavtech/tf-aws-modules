@@ -13,7 +13,7 @@ jobs:
       contents: write
     steps:
       - name: Pull request checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
         id: checkout
         with:
           ref: ${{ github.event.pull_request.head.ref }}
@@ -21,7 +21,7 @@ jobs:
         uses: terraform-docs/gh-actions@main
         id: tfdocs
         with:
-          find-dir: ./modules
-          output-file: readme.md
+          find-dir: ./
+          output-file: README.md
           output-method: inject
           git-push: "true"
