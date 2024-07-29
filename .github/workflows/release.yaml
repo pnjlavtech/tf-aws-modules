@@ -1,66 +1,41 @@
-name: Release
+name: tf-module-release
+
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "**/*.tf"
+  pull_request:
+    types: [closed]
+
 jobs:
   release:
-    name: Release
-    runs-on: ubuntu-latest
-
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest                
     steps:
-      - name: Checkout
-        uses: actions/checkout@main
+      - uses: actions/checkout@v3
         with:
-          persist-credentials: false
-          fetch-depth: 0
-
-      - name: Extract branch name, eg module
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch   
-
-      # - name: Module label added
-      #   if: contains(github.event.pull_request.labels.*.name, 'module') == true 
-      #   run: echo "label=module" >> $GITHUB_OUTPUT
-      #   id: extract_label
-
-      - name: Semantic Release
-        id: semantic
-        uses: cycjimmy/semantic-release-action@v4.1.0
-        with:
-          semantic_version: 23.0.2
-          branches: |
-            [
-              '+([0-9])?(.{+([0-9]),x}).x',
-              'main',
-              'next',
-              'next-major',
-              {
-                name: 'beta',
-                prerelease: true
-              },
-              {
-                name: 'alpha',
-                prerelease: true
-              }
-            ]
-          tag_format: v${version}--${{ steps.extract_branch.outputs.branch }}    
-          extra_plugins: |
-            @semantic-release/changelog@6.0.3
-            @semantic-release/git@10.0.1
-            conventional-changelog-conventionalcommits@7.0.2
+          fetch-depth: 0 
+          
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       
-      - name: Do something when a new release published
-        if: steps.semantic.outputs.new_release_published == 'true'
-        run: |
-            echo ${{ steps.semantic.outputs.new_release_version }}
-            echo ${{ steps.semantic.outputs.new_release_major_version }}
-            echo ${{ steps.semantic.outputs.new_release_minor_version }}
-            echo ${{ steps.semantic.outputs.new_release_patch_version }}
-      
+      - name: 'Get next version'
+        id: semvers
+        uses: "WyriHaximus/github-action-next-semvers@v1"
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
+
+      - uses: rickstaa/action-create-tag@v1
+        if: contains(github.event.pull_request.labels.*.name, 'minor')
+        with:
+          tag: "${{ steps.semvers.outputs.minor }}"
+
+      - uses: rickstaa/action-create-tag@v1
+        if: contains(github.event.pull_request.labels.*.name, 'major')
+        with:
+          tag: "${{ steps.semvers.outputs.major }}"
+
+      - uses: rickstaa/action-create-tag@v1
+        if: contains(github.event.pull_request.labels.*.name, 'patch')
+        with:
+          tag: "${{ steps.semvers.outputs.patch }}"
