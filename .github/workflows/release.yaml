@@ -18,7 +18,18 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - name: Release
+      - name: Extract branch name, eg module
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch   
+
+      # - name: Module label added
+      #   if: contains(github.event.pull_request.labels.*.name, 'module') == true 
+      #   run: echo "label=module" >> $GITHUB_OUTPUT
+      #   id: extract_label
+
+      - name: Semantic Release
+        id: semantic
         uses: cycjimmy/semantic-release-action@v4.1.0
         with:
           semantic_version: 23.0.2
@@ -37,6 +48,7 @@ jobs:
                 prerelease: true
               }
             ]
+          tag_format: v${version}--${{ steps.extract_branch.outputs.branch }}    
           extra_plugins: |
             @semantic-release/changelog@6.0.3
             @semantic-release/git@10.0.1
