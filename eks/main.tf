@@ -65,7 +65,7 @@ module "eks" {
   source = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
-  cluster_name    = var.name
+  cluster_name    = var.eks_fname
   cluster_version = var.eks_cluster_version
 
   # Gives Terraform identity admin access to cluster which will
