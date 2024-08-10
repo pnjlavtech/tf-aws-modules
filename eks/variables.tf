@@ -1,7 +1,7 @@
-variable "name" {
+variable "eks_fname" {
   description = "Cluster name for project"
   type        = string
-  default     = "eks"
+  default     = "dev-eks-a-us-west-2"
 }
 
 variable "eks_cluster_version" {
