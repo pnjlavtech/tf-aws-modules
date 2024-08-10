@@ -28,33 +28,37 @@ provider "aws" {
 }
 
 
-provider "helm" {
-  kubernetes {
-    host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
 
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      command     = "aws"
-      # This requires the awscli to be installed locally where Terraform is executed
-      args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-    }
-  }
-}
+
+# obtain a cluster token for providers, tokens are short lived (15 minutes)
+# provider "kubernetes" {
+#   host                   = data.aws_eks_cluster.eks_cluster_name.endpoint
+#   cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_name.certificate_authority[0].data)
+#   token                  = data.aws_eks_cluster_auth.cluster_auth.token
+# }
+
 
 provider "kubectl" {
   apply_retry_count      = 5
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  host                   = data.aws_eks_cluster.eks_cluster_name.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_name.certificate_authority[0].data)
+  token                  = data.aws_eks_cluster_auth.cluster_auth.token
   load_config_file       = false
+}
 
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    command     = "aws"
-    # This requires the awscli to be installed locally where Terraform is executed
-    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+
+
+provider "helm" {
+  kubernetes {
+    host                   = data.aws_eks_cluster.eks_cluster_name.endpoint
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_name.certificate_authority[0].data)
+    token                  = data.aws_eks_cluster_auth.cluster_auth.token
+
   }
 }
+
+
+
 
 
 ################################################################################
@@ -109,7 +113,7 @@ module "eks" {
     # NOTE - if creating multiple security groups with this module, only tag the
     # security group that Karpenter should utilize with the following tag
     # (i.e. - at most, only one security group should have this tag in your account)
-    "karpenter.sh/discovery" = var.name
+    "karpenter.sh/discovery" = var.eks_fname
   })
 }
 
