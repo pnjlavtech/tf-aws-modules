@@ -8,22 +8,10 @@ variable "cluster_endpoint" {
   type        = string
 }
 
-# variable "cluster_name" {
-#   description = "Kubernetes cluster name"
-#   type        = string
-# }
-
-variable "eks_fname" {
-  description = "Cluster name for project"
+variable "cluster_name" {
+  description = "Kubernetes cluster name"
   type        = string
-  default     = "dev-eks-a-us-west-2"
 }
-
-# variable "region" {
-#   description = "region name for project"
-#   type        = string
-#   default     = "us-west-2"
-# }
 
 variable "tags" {
   description = "Tags"
