@@ -66,7 +66,7 @@ provider "helm" {
 module "karpenter" {
   source = "terraform-aws-modules/eks/aws//modules/karpenter"
 
-  cluster_name = var.eks_fname
+  cluster_name = var.cluster_name
 
   enable_pod_identity             = true
   create_pod_identity_association = true
@@ -105,7 +105,7 @@ resource "helm_release" "karpenter" {
     serviceAccount:
       name: ${module.karpenter.service_account}
     settings:
-      clusterName: ${var.eks_fname}
+      clusterName: ${var.cluster_name}
       clusterEndpoint: ${var.cluster_endpoint}
       interruptionQueue: ${module.karpenter.queue_name}
     EOT
@@ -123,12 +123,12 @@ resource "kubectl_manifest" "karpenter_node_class" {
       role: ${module.karpenter.node_iam_role_name}
       subnetSelectorTerms:
         - tags:
-            karpenter.sh/discovery: ${var.eks_fname}
+            karpenter.sh/discovery: ${var.cluster_name}
       securityGroupSelectorTerms:
         - tags:
-            karpenter.sh/discovery: ${var.eks_fname}
+            karpenter.sh/discovery: ${var.cluster_name}
       tags:
-        karpenter.sh/discovery: ${var.eks_fname}
+        karpenter.sh/discovery: ${var.cluster_name}
   YAML
 
   depends_on = [

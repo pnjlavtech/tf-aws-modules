@@ -5,9 +5,9 @@ data "aws_ecrpublic_authorization_token" "token" {
 }
 
 data "aws_eks_cluster" "eks_cluster_name" {
-  name = var.eks_fname
+  name = var.cluster_name
 }
 
 data "aws_eks_cluster_auth" "cluster_auth" {
-  name = var.eks_fname
+  name = var.cluster_name
 }
