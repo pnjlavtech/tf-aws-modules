@@ -160,13 +160,15 @@ resource "kubectl_manifest" "karpenter_node_class" {
     apiVersion: karpenter.k8s.aws/v1beta1
     kind: EC2NodeClass
     metadata:
-      name: default
+      name: karpenter_node_class
       annotations:
         meta.helm.sh/release-name: karpenter-crd
-        meta.helm.sh/release-namespace: karpenter
+        meta.helm.sh/release-namespace: kube-system
       labels:
         app.kubernetes.io/managed-by: Helm
     spec:
+      name: karpenter_node_class
+      namespace: kube-system 
       amiFamily: AL2023
       role: ${module.karpenter.node_iam_role_name}
       subnetSelectorTerms:
@@ -190,17 +192,19 @@ resource "kubectl_manifest" "karpenter_node_pool" {
     apiVersion: karpenter.sh/v1beta1
     kind: NodePool
     metadata:
-      name: default
+      name: karpenter_node_pool
       annotations:
         meta.helm.sh/release-name: karpenter-crd
-        meta.helm.sh/release-namespace: karpenter
+        meta.helm.sh/release-namespace: kube-system
       labels:
         app.kubernetes.io/managed-by: Helm
     spec:
       template:
         spec:
+          name: karpenter_node_pool
+          namespace: kube-system 
           nodeClassRef:
-            name: default
+            name: karpenter_node_class
           requirements:
             - key: "karpenter.k8s.aws/instance-category"
               operator: In
