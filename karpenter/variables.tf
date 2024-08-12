@@ -13,6 +13,13 @@ variable "cluster_name" {
   type        = string
 }
 
+# variable "chart_version" {
+#   description = "Karpenter chart version"
+#   type        = string
+#   default     = "0.37.0"
+# }
+
+
 variable "tags" {
   description = "Tags"
   type        = map(string)
