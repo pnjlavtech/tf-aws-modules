@@ -1,10 +1,10 @@
-variable "cluster_certificate_authority_data" {
-  description = "Kubernetes cluster certificate authority data (module.eks.cluster_ca_certificate)"
+variable "chart_version" {
+  description = "Karpenter chart version"
   type        = string
 }
 
-variable "chart_version" {
-  description = "Karpenter chart version"
+variable "cluster_certificate_authority_data" {
+  description = "Kubernetes cluster certificate authority data (module.eks.cluster_ca_certificate)"
   type        = string
 }
 
