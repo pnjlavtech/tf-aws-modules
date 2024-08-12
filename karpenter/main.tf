@@ -116,7 +116,7 @@ module "karpenter_disabled" {
 # https://karpenter.sh/docs/upgrading/upgrade-guide/#crd-upgrades
 resource "helm_release" "karpenter-crd" {
   namespace           = "kube-system"
-  create_namespace    = true
+  create_namespace    = false
   name                = "karpenter-crd"
   repository          = "oci://public.ecr.aws/karpenter"
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
@@ -130,7 +130,7 @@ resource "helm_release" "karpenter-crd" {
 resource "helm_release" "karpenter" {
   depends_on          = [ helm_release.karpenter-crd ]
   namespace           = "kube-system"
-  create_namespace    = true
+  create_namespace    = false
   name                = "karpenter"
   repository          = "oci://public.ecr.aws/karpenter"
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
@@ -160,15 +160,13 @@ resource "kubectl_manifest" "karpenter_node_class" {
     apiVersion: karpenter.k8s.aws/v1beta1
     kind: EC2NodeClass
     metadata:
-      name: karpenter_node_class
+      name: default
       annotations:
         meta.helm.sh/release-name: karpenter-crd
         meta.helm.sh/release-namespace: kube-system
       labels:
         app.kubernetes.io/managed-by: Helm
     spec:
-      name: karpenter_node_class
-      namespace: kube-system 
       amiFamily: AL2023
       role: ${module.karpenter.node_iam_role_name}
       subnetSelectorTerms:
@@ -192,7 +190,7 @@ resource "kubectl_manifest" "karpenter_node_pool" {
     apiVersion: karpenter.sh/v1beta1
     kind: NodePool
     metadata:
-      name: karpenter_node_pool
+      name: default
       annotations:
         meta.helm.sh/release-name: karpenter-crd
         meta.helm.sh/release-namespace: kube-system
@@ -201,10 +199,8 @@ resource "kubectl_manifest" "karpenter_node_pool" {
     spec:
       template:
         spec:
-          name: karpenter_node_pool
-          namespace: kube-system 
           nodeClassRef:
-            name: karpenter_node_class
+            name: default
           requirements:
             - key: "karpenter.k8s.aws/instance-category"
               operator: In
