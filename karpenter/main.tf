@@ -122,7 +122,7 @@ resource "helm_release" "karpenter-crd" {
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
   repository_password = data.aws_ecrpublic_authorization_token.token.password
   chart               = "karpenter-crd"
-  version             = var.karpenter.chart_version
+  version             = var.chart_version
   wait                = true
   values              = []
 }
@@ -136,7 +136,7 @@ resource "helm_release" "karpenter" {
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
   repository_password = data.aws_ecrpublic_authorization_token.token.password
   chart               = "karpenter"
-  version             = var.karpenter.chart_version
+  version             = var.chart_version
   wait                = true
   
   # The crds are controlled by the karpenter-crd chart above.
