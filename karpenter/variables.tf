@@ -16,6 +16,7 @@ variable "cluster_endpoint" {
 variable "cluster_name" {
   description = "Kubernetes cluster name"
   type        = string
+  default     = "dev-eks-a-us-west-2"
 }
 
 variable "tags" {
