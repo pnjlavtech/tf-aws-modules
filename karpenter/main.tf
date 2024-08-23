@@ -28,6 +28,10 @@ provider "aws" {
 }
 
 
+locals {
+  cluster_auth_token = "k8s-aws-v1-LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJVW5JeVY4R2x0VXd3RFF"
+}
+
 
 
 # obtain a cluster token for providers, tokens are short lived (15 minutes)
@@ -38,21 +42,23 @@ provider "aws" {
 # }
 
 
+
+# obtain a cluster token for providers, tokens are short lived (15 minutes)
 provider "kubectl" {
   apply_retry_count      = 5
-  host                   = data.aws_eks_cluster.eks_cluster_name.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_name.certificate_authority[0].data)
-  token                  = data.aws_eks_cluster_auth.cluster_auth.token
+  host                   = var.cluster_endpoint
+  cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
+  token                  = var.cluster_auth_token == "" ? local.cluster_auth_token : data.aws_eks_cluster_auth.cluster_auth.token
   load_config_file       = false
 }
 
 
-
+# obtain a cluster token for providers, tokens are short lived (15 minutes)
 provider "helm" {
   kubernetes {
-    host                   = data.aws_eks_cluster.eks_cluster_name.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_name.certificate_authority[0].data)
-    token                  = data.aws_eks_cluster_auth.cluster_auth.token
+    host                   = var.cluster_endpoint
+    cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
+    token                  = var.cluster_auth_token == "" ? local.cluster_auth_token : data.aws_eks_cluster_auth.cluster_auth.token
 
   }
 }

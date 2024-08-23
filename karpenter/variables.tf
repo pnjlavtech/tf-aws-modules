@@ -3,6 +3,12 @@ variable "chart_version" {
   type        = string
 }
 
+variable "cluster_auth_token" {
+  description = "EKS cluster auth token"
+  type        = string
+  default     = ""
+}
+
 variable "cluster_certificate_authority_data" {
   description = "Kubernetes cluster certificate authority data (module.eks.cluster_ca_certificate)"
   type        = string
