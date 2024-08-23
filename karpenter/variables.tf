@@ -6,7 +6,7 @@ variable "chart_version" {
 variable "cluster_auth_token" {
   description = "EKS cluster auth token"
   type        = string
-  # default     = ""
+  default     = ""
 }
 
 variable "cluster_certificate_authority_data" {
@@ -22,7 +22,7 @@ variable "cluster_endpoint" {
 variable "cluster_name" {
   description = "Kubernetes cluster name"
   type        = string
-  # default     = "dev-eks-a-us-west-2"
+  default     = "eks"
 }
 
 variable "tags" {
