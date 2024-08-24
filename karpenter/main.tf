@@ -28,9 +28,6 @@ provider "aws" {
 }
 
 
-locals { 
-  cluster_auth_token = "k8s-aws-v1"
-}
 
 
 
@@ -48,7 +45,7 @@ provider "kubectl" {
   apply_retry_count      = 5
   host                   = var.cluster_endpoint
   cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
-  token                  = var.cluster_auth_token == "" ? local.cluster_auth_token : data.aws_eks_cluster_auth.cluster_auth[0].token
+  token                  = var.cluster_auth_token == "mockinput" ? "mockinput" : data.aws_eks_cluster_auth.cluster_auth[0].token
   load_config_file       = false
 }
 
@@ -58,7 +55,7 @@ provider "helm" {
   kubernetes {
     host                   = var.cluster_endpoint
     cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
-    token                  = var.cluster_auth_token == "" ? local.cluster_auth_token : data.aws_eks_cluster_auth.cluster_auth[0].token
+    token                  = var.cluster_auth_token == "mockinput" ? "mockinput" : data.aws_eks_cluster_auth.cluster_auth[0].token
 
   }
 }
