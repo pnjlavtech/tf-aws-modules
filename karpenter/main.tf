@@ -28,8 +28,8 @@ provider "aws" {
 }
 
 
-locals {
-  cluster_auth_token = "k8s-aws-v1-LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJVW5JeVY4R2x0VXd3RFF"
+locals { 
+  cluster_auth_token = "k8s-aws-v1"
 }
 
 
