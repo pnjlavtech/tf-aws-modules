@@ -31,6 +31,5 @@ variable "tags" {
   default = {
     module = "eks-karpenter"
   }
-
 }
 
