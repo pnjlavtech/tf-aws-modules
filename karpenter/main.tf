@@ -30,7 +30,6 @@ provider "aws" {
 
 
 
-
 # obtain a cluster token for providers, tokens are short lived (15 minutes)
 # provider "kubernetes" {
 #   host                   = data.aws_eks_cluster.eks_cluster_name.endpoint
