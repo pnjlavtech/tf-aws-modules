@@ -11,7 +11,7 @@ data "aws_ecrpublic_authorization_token" "token" {
 # }
 
 data "aws_eks_cluster_auth" "cluster_auth" {
-  count = var.cluster_name == "dev-eks" ? 0 : 1
+  count = var.cluster_name == "eks" ? 0 : 1
 
   name = var.cluster_name
 }

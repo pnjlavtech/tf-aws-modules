@@ -46,7 +46,7 @@ provider "kubectl" {
   cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
   # token                  = data.aws_eks_cluster_auth.cluster_auth[0].token != null ? data.aws_eks_cluster_auth.cluster_auth[0].token : ""
   # token                  = var.cluster_auth_token == "" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
-  token                  = var.cluster_name == "dev-eks" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
+  token                  = var.cluster_name == "eks" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
   load_config_file       = false
 }
 
@@ -58,7 +58,7 @@ provider "helm" {
     cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
     # token                  = data.aws_eks_cluster_auth.cluster_auth[0].token != null ? data.aws_eks_cluster_auth.cluster_auth[0].token : ""
     # token                  = var.cluster_auth_token == "" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
-    token                  = var.cluster_name == "dev-eks" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
+    token                  = var.cluster_name == "eks" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
   }
 }
 
