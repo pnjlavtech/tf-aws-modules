@@ -63,6 +63,15 @@ provider "helm" {
 
 
 
+locals {
+  tags = {
+    Clustername = var.cluster_name
+    GithubRepo  = "tf-aws-modules"
+    module      = "eks-karpenter"
+  }
+}
+
+
 ################################################################################
 # Karpenter
 ################################################################################
@@ -80,7 +89,7 @@ module "karpenter" {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
 
-  tags = var.tags
+  tags = local.tags
 }
 
 module "karpenter_disabled" {
@@ -88,33 +97,6 @@ module "karpenter_disabled" {
 
   create = false
 }
-
-################################################################################
-# Karpenter Helm chart & manifests
-# Not required; just to demonstrate functionality of the sub-module
-################################################################################
-
-# resource "helm_release" "karpenter" {
-#   namespace           = "kube-system"
-#   name                = "karpenter"
-#   repository          = "oci://public.ecr.aws/karpenter"
-#   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
-#   repository_password = data.aws_ecrpublic_authorization_token.token.password
-#   chart               = "karpenter"
-#   version             = "0.37.0"
-#   wait                = false
-
-#   values = [
-#     <<-EOT
-#     serviceAccount:
-#       name: ${module.karpenter.service_account}
-#     settings:
-#       clusterName: ${var.cluster_name}
-#       clusterEndpoint: ${var.cluster_endpoint}
-#       interruptionQueue: ${module.karpenter.queue_name}
-#     EOT
-#   ]
-# }
 
 # Check this for update notes first:
 # https://karpenter.sh/docs/upgrading/upgrade-guide/#crd-upgrades
