@@ -44,8 +44,9 @@ provider "kubectl" {
   apply_retry_count      = 5
   host                   = var.cluster_endpoint
   cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
-  token                  = data.aws_eks_cluster_auth.cluster_auth[0].token != null ? data.aws_eks_cluster_auth.cluster_auth[0].token : ""
+  # token                  = data.aws_eks_cluster_auth.cluster_auth[0].token != null ? data.aws_eks_cluster_auth.cluster_auth[0].token : ""
   # token                  = var.cluster_auth_token == "" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
+  token                  = var.cluster_name == "dev-eks" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
   load_config_file       = false
 }
 
@@ -55,9 +56,9 @@ provider "helm" {
   kubernetes {
     host                   = var.cluster_endpoint
     cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
-    token                  = data.aws_eks_cluster_auth.cluster_auth[0].token != null ? data.aws_eks_cluster_auth.cluster_auth[0].token : ""
+    # token                  = data.aws_eks_cluster_auth.cluster_auth[0].token != null ? data.aws_eks_cluster_auth.cluster_auth[0].token : ""
     # token                  = var.cluster_auth_token == "" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
-
+    token                  = var.cluster_name == "dev-eks" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
   }
 }
 
