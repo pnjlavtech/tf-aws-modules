@@ -214,3 +214,7 @@ resource "kubectl_manifest" "karpenter_node_pool" {
     kubectl_manifest.karpenter_node_class
   ]
 }
+
+resource "aws_iam_service_linked_role" "karpenter_spot" {
+  aws_service_name = "spot.amazonaws.com"
+}
