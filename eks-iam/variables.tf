@@ -4,7 +4,6 @@ variable "cluster_name" {
   default     = ""
 }
 
-
 variable "oidc_provider" {
   description = "EKS OIDC provider"
   type        = string

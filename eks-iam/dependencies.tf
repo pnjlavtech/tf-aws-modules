@@ -7,7 +7,6 @@ data "aws_route53_zone" "this" {
   private_zone = false
 }
 
-
 data "aws_iam_policy_document" "external_dns" {
   statement {
     effect    = "Allow"

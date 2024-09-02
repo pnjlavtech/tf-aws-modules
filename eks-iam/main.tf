@@ -1,5 +1,3 @@
-
-
 locals {
   aws_eks_elb_controller_role_name = "AmazonEKSLoadBalancerController"
 
