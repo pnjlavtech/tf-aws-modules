@@ -4,16 +4,8 @@ variable "cluster_name" {
   default     = ""
 }
 
-
 variable "oidc_provider" {
   description = "EKS OIDC provider"
-  type        = string
-  default     = ""
-}
-
-
-variable "public_domain" {
-  description = "Public DNS zone name"
   type        = string
   default     = ""
 }
