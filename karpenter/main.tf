@@ -215,6 +215,9 @@ resource "kubectl_manifest" "karpenter_node_pool" {
   ]
 }
 
-resource "aws_iam_service_linked_role" "karpenter_spot" {
-  aws_service_name = "spot.amazonaws.com"
-}
+# This is needed one time per account, only once at initial run.
+# resource "aws_iam_service_linked_role" "spot" {
+#   aws_service_name = "spot.amazonaws.com"
+#   # custom_suffix    = "--karpenter-spot"
+# }
+
