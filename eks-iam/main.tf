@@ -1,11 +1,6 @@
-
-
 locals {
   aws_eks_elb_controller_role_name = "AmazonEKSLoadBalancerController"
-
-  aws_eks_external_dns_role_name = "AmazonEKSRoute53ExternalDNS"
 }
-
 
 
 resource "aws_iam_policy" "eks_alb" {
@@ -232,11 +227,6 @@ resource "aws_iam_policy" "eks_alb" {
   })
 }
 
-resource "aws_iam_policy" "external_dns" {
-  name = local.aws_eks_external_dns_role_name
-
-  policy = data.aws_iam_policy_document.external_dns.json
-}
 
 resource "aws_iam_role" "AmazonEKSLoadBalancerControllerRole" {
   name = local.aws_eks_elb_controller_role_name
@@ -266,39 +256,8 @@ resource "aws_iam_role" "AmazonEKSLoadBalancerControllerRole" {
 }
 
 
-
-resource "aws_iam_role" "external_dns" {
-  name = local.aws_eks_external_dns_role_name
-
-  assume_role_policy = jsonencode(
-    {
-      Statement = [
-        {
-          Action = "sts:AssumeRoleWithWebIdentity"
-          Condition = {
-            StringEquals = {
-              "${var.oidc_provider}:aud" = "sts.amazonaws.com"
-            }
-          }
-          Effect = "Allow"
-          Principal = {
-            Federated = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:oidc-provider/${var.oidc_provider}"
-          }
-        },
-      ]
-      Version = "2012-10-17"
-    }
-  )
-
-  tags = var.tags
-}
-
 resource "aws_iam_role_policy_attachment" "AmazonEKSLoadBalancerController" {
   policy_arn = aws_iam_policy.eks_alb.arn
   role       = aws_iam_role.AmazonEKSLoadBalancerControllerRole.name
 }
 
-resource "aws_iam_role_policy_attachment" "external_dns" {
-  policy_arn = aws_iam_policy.external_dns.arn
-  role       = aws_iam_role.external_dns.name
-}
