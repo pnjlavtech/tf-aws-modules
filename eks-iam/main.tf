@@ -1,10 +1,5 @@
-locals {
-  aws_eks_elb_controller_role_name = "AmazonEKSLoadBalancerController"
-}
-
-
-resource "aws_iam_policy" "eks_alb" {
-  name = "${var.cluster_name}-alb"
+resource "aws_iam_policy" "eks_alb_iam_policy" {
+  name = "${var.cluster_name}-alb-iam-policy"
   policy = jsonencode(
     {
       Statement = [
@@ -228,8 +223,10 @@ resource "aws_iam_policy" "eks_alb" {
 }
 
 
-resource "aws_iam_role" "AmazonEKSLoadBalancerControllerRole" {
-  name = local.aws_eks_elb_controller_role_name
+# Create the service account
+resource "aws_iam_role" "eks_alb_controller_role" {
+  name = "${var.cluster_name}-alb-controller-role"
+
 
   assume_role_policy = jsonencode(
     {
@@ -252,12 +249,18 @@ resource "aws_iam_role" "AmazonEKSLoadBalancerControllerRole" {
     }
   )
 
-  tags = var.tags
+  # tags = var.tags
+  tags = merge(var.tags, {
+    "Name"           = "${var.cluster_name}-alb-controller-role"
+    "k8s-kind--name" = "ServiceAccount--${var.cluster_name}-alb-controller-role"
+    "helm-release"   = "alb-ingress"
+  })
+
 }
 
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSLoadBalancerController" {
-  policy_arn = aws_iam_policy.eks_alb.arn
-  role       = aws_iam_role.AmazonEKSLoadBalancerControllerRole.name
+resource "aws_iam_role_policy_attachment" "eks_alb_controller_iam_role_policy_attachment" {
+  policy_arn = aws_iam_policy.eks_alb_iam_policy.arn
+  role       = aws_iam_role.eks_alb_controller_role.name
 }
 
