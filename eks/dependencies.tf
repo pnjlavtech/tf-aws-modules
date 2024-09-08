@@ -8,6 +8,10 @@ data "aws_ecrpublic_authorization_token" "token" {
   provider = aws.virginia
 }
 
+data "aws_route53_zone" "this" {
+  name         = var.public_domain
+  private_zone = false
+}
 
 data "aws_iam_policy_document" "external_dns_iam_policy_document" {
   statement {
