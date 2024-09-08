@@ -23,6 +23,13 @@ variable "private_subnets" {
 
 }
 
+variable "public_domain" {
+  description = "Public DNS zone name"
+  type        = string
+
+  default = "domain.com"
+}
+
 variable "region" {
   description = "region name for project"
   type        = string
