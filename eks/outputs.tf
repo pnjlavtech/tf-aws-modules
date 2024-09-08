@@ -132,6 +132,26 @@ output "cluster_iam_role_unique_id" {
   value       = module.eks.cluster_iam_role_unique_id
 }
 
+output "eks_alb_cluster_iam_role_name" {
+  description = "IAM role name of the Amazon EKS LoadBalancer Controller Role"
+  value       = aws_iam_role.eks_alb_iam_role.name
+}
+
+output "eks_alb_cluster_iam_role_arn" {
+  description = "IAM role ARN of the Amazon EKS LoadBalancer Controller Role"
+  value       = aws_iam_role.eks_alb_iam_role.arn
+}
+
+output "aws_eks_external_dns_iam_role_name" {
+  description = "IAM role name of the Amazon EKS External DNS Role"
+  value       = aws_iam_role.eks_external_dns_iam_role.name
+}
+
+output "aws_eks_external_dns_iam_role_arn" {
+  description = "IAM role ARN of the Amazon EKS External DNS Role"
+  value       = aws_iam_role.eks_external_dns_iam_role.arn
+}
+
 ################################################################################
 # EKS Addons
 ################################################################################
