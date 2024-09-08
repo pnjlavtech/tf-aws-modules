@@ -33,6 +33,7 @@ module "eks" {
   cluster_name    = var.eks_fname
   cluster_version = var.eks_cluster_version
 
+
   # Gives Terraform identity admin access to cluster which will
   # allow deploying resources (Karpenter) into the cluster
   enable_cluster_creator_admin_permissions = true
@@ -52,10 +53,10 @@ module "eks" {
   eks_managed_node_groups = {
     karpenter = {
       ami_type       = "AL2023_x86_64_STANDARD"
-      instance_types = ["m5.large"]
+      instance_types = ["m5.large"]  # m6i.large
 
       min_size     = 2
-      max_size     = 3
+      max_size     = 5
       desired_size = 2
 
       taints = {
@@ -67,16 +68,36 @@ module "eks" {
           effect = "NO_SCHEDULE"
         },
       }
+
+      # This is not required - demonstrates how to pass additional configuration to nodeadm
+      # Ref https://awslabs.github.io/amazon-eks-ami/nodeadm/doc/api/
+      # cloudinit_pre_nodeadm = [
+      #   {
+      #     content_type = "application/node.eks.aws"
+      #     content      = <<-EOT
+      #       ---
+      #       apiVersion: node.eks.aws/v1alpha1
+      #       kind: NodeConfig
+      #       spec:
+      #         kubelet:
+      #           config:
+      #             shutdownGracePeriod: 30s
+      #             featureGates:
+      #               DisableKubeletCloudCredentialProviders: true
+      #     EOT
+      #   }
+      # ]
+
     }
   }
 
-
-  tags = merge(var.tags, {
+  node_security_group_tags = merge(var.tags, {
     # NOTE - if creating multiple security groups with this module, only tag the
     # security group that Karpenter should utilize with the following tag
     # (i.e. - at most, only one security group should have this tag in your account)
     "karpenter.sh/discovery" = var.eks_fname
   })
+
+  tags = var.tags
+
 }
-
-
