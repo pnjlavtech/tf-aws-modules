@@ -21,15 +21,6 @@ provider "aws" {
 
 
 
-locals {
-  tags = {
-    Clustername = var.eks_fname
-    GithubRepo  = "tf-aws-modules"
-    module      = "eks"
-  }
-}
-
-
 
 ################################################################################
 # EKS Module
@@ -79,9 +70,8 @@ module "eks" {
     }
   }
 
-  
 
-  tags = merge(local.tags, {
+  tags = merge(var.tags, {
     # NOTE - if creating multiple security groups with this module, only tag the
     # security group that Karpenter should utilize with the following tag
     # (i.e. - at most, only one security group should have this tag in your account)
