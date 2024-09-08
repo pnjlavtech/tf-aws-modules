@@ -8,7 +8,7 @@ data "aws_ecrpublic_authorization_token" "token" {
   provider = aws.virginia
 }
 
-data "aws_eks_cluster_auth" "this" {
+data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_name
 }
 
@@ -32,7 +32,3 @@ data "aws_iam_policy_document" "external_dns_iam_policy_document" {
     resources = ["*"]
   }
 }
-
-
-
-
