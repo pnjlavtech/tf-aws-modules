@@ -16,6 +16,38 @@ provider "aws" {
       source  = "hashicorp/aws"
       version = ">= 5.50"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.13.1"
+    }
+    kubectl = {
+      source  = "alekc/kubectl"
+      version = ">= 2.0"
+    }
+  }
+}
+
+
+
+provider "kubectl" {
+  apply_retry_count      = 10
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  load_config_file       = false
+  token                  = data.aws_eks_cluster_auth.this.token
+}
+
+provider "kubernetes" {
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  token                  = data.aws_eks_cluster_auth.this.token
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+    token                  = data.aws_eks_cluster_auth.this.token
   }
 }
 

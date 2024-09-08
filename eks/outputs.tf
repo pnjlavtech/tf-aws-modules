@@ -66,6 +66,11 @@ output "access_entries" {
   value       = module.eks.access_entries
 }
 
+output "configure_kubectl" {
+  description = "Configure kubectl: make sure you're logged in with the correct AWS profile and run the following command to update your kubeconfig"
+  value       = "aws eks --region ${var.region} update-kubeconfig --name ${module.eks.cluster_name}"
+}
+
 ################################################################################
 # Security Group
 ################################################################################
@@ -112,6 +117,8 @@ output "cluster_tls_certificate_sha1_fingerprint" {
   description = "The SHA1 fingerprint of the public key of the cluster's certificate"
   value       = module.eks.cluster_tls_certificate_sha1_fingerprint
 }
+
+
 
 ################################################################################
 # IAM Role
