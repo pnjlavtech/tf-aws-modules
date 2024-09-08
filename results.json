@@ -127,7 +127,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -150,7 +150,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
+			"description": "IAM policy document uses sensitive action 'iam:CreateServiceLinkedRole' on wildcarded resource '*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -242,7 +242,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -334,7 +334,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'iam:CreateServiceLinkedRole' on wildcarded resource '*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -594,8 +594,8 @@
 			"resource": "data.aws_iam_policy_document.external_dns_iam_policy_document",
 			"location": {
 				"filename": "/github/workspace/eks/dependencies.tf",
-				"start_line": 28,
-				"end_line": 28
+				"start_line": 32,
+				"end_line": 32
 			}
 		},
 		{
@@ -617,8 +617,8 @@
 			"resource": "data.aws_iam_policy_document.external_dns_iam_policy_document",
 			"location": {
 				"filename": "/github/workspace/eks/dependencies.tf",
-				"start_line": 28,
-				"end_line": 28
+				"start_line": 32,
+				"end_line": 32
 			}
 		},
 		{
