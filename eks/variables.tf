@@ -1,5 +1,5 @@
 variable "eks_fname" {
-  description = "Cluster name for project"
+  description = "Full EKS cluster name"
   type        = string
   default     = "dev-eks-a-us-west-2"
 }
@@ -31,7 +31,7 @@ variable "public_domain" {
 }
 
 variable "region" {
-  description = "region name for project"
+  description = "Region of the EKS cluster"
   type        = string
   default     = "us-west-2"
 }
