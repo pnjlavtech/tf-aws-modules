@@ -29,23 +29,11 @@ provider "aws" {
 
 
 
-
-# obtain a cluster token for providers, tokens are short lived (15 minutes)
-# provider "kubernetes" {
-#   host                   = data.aws_eks_cluster.eks_cluster_name.endpoint
-#   cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster_name.certificate_authority[0].data)
-#   token                  = data.aws_eks_cluster_auth.cluster_auth.token
-# }
-
-
-
 # obtain a cluster token for providers, tokens are short lived (15 minutes)
 provider "kubectl" {
   apply_retry_count      = 5
   host                   = var.cluster_endpoint
   cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
-  # token                  = data.aws_eks_cluster_auth.cluster_auth[0].token != null ? data.aws_eks_cluster_auth.cluster_auth[0].token : ""
-  # token                  = var.cluster_auth_token == "" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
   token                  = var.cluster_name == "eks" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
   load_config_file       = false
 }
@@ -56,21 +44,10 @@ provider "helm" {
   kubernetes {
     host                   = var.cluster_endpoint
     cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
-    # token                  = data.aws_eks_cluster_auth.cluster_auth[0].token != null ? data.aws_eks_cluster_auth.cluster_auth[0].token : ""
-    # token                  = var.cluster_auth_token == "" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
     token                  = var.cluster_name == "eks" ? "" : data.aws_eks_cluster_auth.cluster_auth[0].token
   }
 }
 
-
-
-locals {
-  tags = {
-    Clustername = var.cluster_name
-    GithubRepo  = "tf-aws-modules"
-    module      = "eks-karpenter"
-  }
-}
 
 
 ################################################################################
@@ -90,7 +67,7 @@ module "karpenter" {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
 
-  tags = local.tags
+  tags = var.tags
 }
 
 module "karpenter_disabled" {
