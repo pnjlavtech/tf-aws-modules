@@ -1,9 +1,3 @@
-variable "environment" {
-  description = "Environment name for project"
-  type        = string
-  default     = "environment"
-}
-
 variable "intra_subnets" {
   description = "intra subnets"
   type        = list(string)
@@ -17,6 +11,12 @@ variable "intra_subnet_tags" {
     module-component      = "subnet"
     module-component-type = "subnet-intra"
   }
+}
+
+variable "name" {
+  description = "Name of the vpc"
+  type        = string
+  default     = ""
 }
 
 variable "private_subnets" {
