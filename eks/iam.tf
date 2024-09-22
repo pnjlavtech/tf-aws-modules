@@ -246,8 +246,9 @@ resource "aws_iam_policy" "eks_external_secrets_iam_policy" {
           "arn:aws:secretsmanager:*:*:secret:*"
         ]
       }
-    ]
-  }
+      ]
+      Version = "2012-10-17"
+    }
   )
 }
 
