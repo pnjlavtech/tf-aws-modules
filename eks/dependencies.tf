@@ -8,6 +8,14 @@ data "aws_ecrpublic_authorization_token" "token" {
   provider = aws.virginia
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_name
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_name
+}
+
 data "aws_route53_zone" "this" {
   name         = var.public_domain
   private_zone = false
@@ -28,7 +36,3 @@ data "aws_iam_policy_document" "external_dns_iam_policy_document" {
     resources = ["*"]
   }
 }
-
-
-
-
