@@ -229,6 +229,30 @@ resource "aws_iam_policy" "eks_external_dns_iam_policy" {
 }
 
 
+resource "aws_iam_policy" "eks_external_secrets_iam_policy" {
+  name   = "${var.eks_fname}-external-secrets-iam-policy"
+  policy = jsonencode(
+    {
+      Statement = [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "secretsmanager:GetResourcePolicy",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:ListSecretVersionIds"
+        ],
+        "Resource": [
+          "arn:aws:secretsmanager:*:*:secret:*"
+        ]
+      }
+    ]
+  }
+  )
+}
+
+
+
 # Create the role aka service account
 resource "aws_iam_role" "eks_alb_iam_role" {
   name = "${var.eks_fname}-alb-iam-role"
@@ -298,6 +322,39 @@ resource "aws_iam_role" "eks_external_dns_iam_role" {
 }
 
 
+resource "aws_iam_role" "eks_external_secrets_iam_role" {
+  name = "${var.eks_fname}-external-secrets-iam-role"
+
+  assume_role_policy = jsonencode(
+    {
+      Statement = [
+        {
+          Action = "sts:AssumeRoleWithWebIdentity"
+          Condition = {
+            StringEquals = {
+              "${module.eks.oidc_provider}:aud" = "sts.amazonaws.com"
+            }
+          }
+          Effect = "Allow"
+          Principal = {
+            Federated = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:oidc-provider/${module.eks.oidc_provider}"
+          }
+        },
+      ]
+      Version = "2012-10-17"
+    }
+  )
+
+  tags = merge(var.tags, {
+    "Name"           = "${var.eks_fname}-external-secrets-iam-role"
+    "k8s-kind--name" = "ServiceAccount--${var.eks_fname}-external-secrets-iam-role"
+    "down-stream-dep" = "helm-release--external-secrets"
+    "helm-release"   = "external-secrets"
+  })
+
+}
+
+
 
 
 resource "aws_iam_role_policy_attachment" "eks_alb_iam_role_policy_attachment" {
@@ -311,3 +368,8 @@ resource "aws_iam_role_policy_attachment" "eks_external_dns_iam_role_policy_atta
   role       = aws_iam_role.eks_external_dns_iam_role.name
 }
 
+
+resource "aws_iam_role_policy_attachment" "eks_external_secrets_iam_role_policy_attachment" {
+  policy_arn = aws_iam_policy.eks_external_secrets_iam_policy.arn
+  role       = aws_iam_role.eks_external_secrets_iam_role.name
+}
