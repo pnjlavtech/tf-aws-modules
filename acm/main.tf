@@ -16,7 +16,7 @@ locals {
   # Removing trailing dot from domain - just to be sure :)
   domain_name = trimsuffix(local.domain, ".")
 
-  zone_id = try(data.aws_route53_zone.this[0].zone_id, aws_route53_zone.this[0].zone_id)
+  zone_id = data.aws_route53_zone.this.zone_id
 }
 
 
