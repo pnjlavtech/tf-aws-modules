@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-west-2"
-}
-
  terraform {
   required_version = ">= 1.3.2"
 
@@ -14,8 +10,6 @@ provider "aws" {
 }
 
 
-
-
 locals {
   domain = var.public_domain
 
@@ -26,15 +20,9 @@ locals {
 }
 
 
-
 module "acm" {
-  source  = "terraform-aws-modules/terraform-aws-acm"
+  source  = "terraform-aws-modules/acm/aws"
   version = "~> 5.1.1"
-
-  # providers = {
-  #   aws.acm = aws,
-  #   aws.dns = aws
-  # }
 
   domain_name = local.domain_name
   zone_id     = local.zone_id
