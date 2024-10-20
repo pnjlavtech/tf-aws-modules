@@ -9,7 +9,7 @@
 			"impact": "Your port is egressing data to the internet",
 			"resolution": "Set a more restrictive cidr range",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-public-egress-sgr/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-public-egress-sgr/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group"
 			],
 			"description": "Security group rule allows egress to multiple public internet addresses.",
@@ -32,7 +32,7 @@
 			"impact": "Logging provides valuable information about access and usage",
 			"resolution": "Enable logging for the EKS control plane",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/eks/enable-control-plane-logging/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/eks/enable-control-plane-logging/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster#enabled_cluster_log_types"
 			],
 			"description": "Control plane controller manager logging is not enabled.",
@@ -55,7 +55,7 @@
 			"impact": "Logging provides valuable information about access and usage",
 			"resolution": "Enable logging for the EKS control plane",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/eks/enable-control-plane-logging/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/eks/enable-control-plane-logging/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster#enabled_cluster_log_types"
 			],
 			"description": "Control plane scheduler logging is not enabled.",
@@ -78,7 +78,7 @@
 			"impact": "EKS can be access from the internet",
 			"resolution": "Don't enable public access to EKS Clusters",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/eks/no-public-cluster-access/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/eks/no-public-cluster-access/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster#endpoint_public_access"
 			],
 			"description": "Public cluster access is enabled.",
@@ -101,7 +101,7 @@
 			"impact": "EKS can be accessed from the internet",
 			"resolution": "Don't enable public access to EKS Clusters",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/eks/no-public-cluster-access-to-cidr/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/eks/no-public-cluster-access-to-cidr/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster#vpc_config"
 			],
 			"description": "Cluster allows access from a public CIDR: 0.0.0.0/0.",
@@ -124,7 +124,53 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:DescribeTags' on wildcarded resource '*'",
@@ -147,191 +193,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'iam:CreateServiceLinkedRole' on wildcarded resource '*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:ModifyLoadBalancerAttributes' on wildcarded resource '*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:RegisterTargets' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
@@ -354,10 +216,10 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:ModifyLoadBalancerAttributes' on wildcarded resource '*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -377,10 +239,10 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:CreateListener' on wildcarded resource '*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -400,168 +262,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:CreateLoadBalancer' on wildcarded resource '*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'ec2:AuthorizeSecurityGroupIngress' on wildcarded resource '*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'ec2:CreateTags' on wildcarded resource 'arn:aws:ec2:*:*:security-group/*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'ec2:CreateTags' on wildcarded resource 'arn:aws:ec2:*:*:security-group/*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'ec2:CreateSecurityGroup' on wildcarded resource '*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'ec2:AuthorizeSecurityGroupIngress' on wildcarded resource '*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'cognito-idp:DescribeUserPoolClient' on wildcarded resource '*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "aws_iam_policy.eks_alb_iam_policy",
-			"location": {
-				"filename": "/github/workspace/eks/iam.tf",
-				"start_line": 4,
-				"end_line": 4
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
@@ -584,7 +285,352 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'iam:CreateServiceLinkedRole' on wildcarded resource '*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:CreateListener' on wildcarded resource '*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:CreateLoadBalancer' on wildcarded resource '*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'ec2:AuthorizeSecurityGroupIngress' on wildcarded resource '*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'ec2:CreateTags' on wildcarded resource 'arn:aws:ec2:*:*:security-group/*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'ec2:CreateTags' on wildcarded resource 'arn:aws:ec2:*:*:security-group/*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'ec2:CreateSecurityGroup' on wildcarded resource '*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'ec2:AuthorizeSecurityGroupIngress' on wildcarded resource '*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'cognito-idp:DescribeUserPoolClient' on wildcarded resource '*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_alb_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 4,
+				"end_line": 4
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'secretsmanager:GetResourcePolicy' on wildcarded resource 'arn:aws:secretsmanager:*:*:secret:*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_external_secrets_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 235,
+				"end_line": 235
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
+			],
+			"description": "IAM policy document uses sensitive action 'secretsmanager:GetResourcePolicy' on wildcarded resource 'arn:aws:secretsmanager:*:*:secret:*'",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_iam_policy.eks_external_secrets_iam_policy",
+			"location": {
+				"filename": "/github/workspace/eks/iam.tf",
+				"start_line": 235,
+				"end_line": 235
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0057",
+			"long_id": "aws-iam-no-policy-wildcards",
+			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
+			"rule_provider": "aws",
+			"rule_service": "iam",
+			"impact": "Overly permissive policies may grant access to sensitive resources",
+			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'route53:ListResourceRecordSets' on wildcarded resource '*'",
@@ -607,30 +653,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
-				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
-			],
-			"description": "IAM policy document uses sensitive action 'route53:ListResourceRecordSets' on wildcarded resource '*'",
-			"severity": "HIGH",
-			"warning": false,
-			"status": 0,
-			"resource": "data.aws_iam_policy_document.external_dns_iam_policy_document",
-			"location": {
-				"filename": "/github/workspace/eks/dependencies.tf",
-				"start_line": 28,
-				"end_line": 28
-			}
-		},
-		{
-			"rule_id": "AVD-AWS-0057",
-			"long_id": "aws-iam-no-policy-wildcards",
-			"rule_description": "IAM policy should avoid use of wildcards and instead apply the principle of least privilege",
-			"rule_provider": "aws",
-			"rule_service": "iam",
-			"impact": "Overly permissive policies may grant access to sensitive resources",
-			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
-			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'cognito-idp:DescribeUserPoolClient' on wildcarded resource '*'",
@@ -653,7 +676,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'iam:CreateServiceLinkedRole' on wildcarded resource '*'",
@@ -676,7 +699,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
@@ -699,7 +722,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:RegisterTargets' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
@@ -722,7 +745,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:ModifyLoadBalancerAttributes' on wildcarded resource '*'",
@@ -745,7 +768,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
@@ -768,7 +791,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
@@ -791,7 +814,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
@@ -814,7 +837,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
@@ -837,7 +860,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
@@ -860,7 +883,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
@@ -883,7 +906,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
@@ -906,7 +929,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:CreateListener' on wildcarded resource '*'",
@@ -929,7 +952,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:CreateLoadBalancer' on wildcarded resource '*'",
@@ -952,7 +975,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:AuthorizeSecurityGroupIngress' on wildcarded resource '*'",
@@ -975,7 +998,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:CreateTags' on wildcarded resource 'arn:aws:ec2:*:*:security-group/*'",
@@ -998,7 +1021,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:CreateTags' on wildcarded resource 'arn:aws:ec2:*:*:security-group/*'",
@@ -1021,7 +1044,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:CreateSecurityGroup' on wildcarded resource '*'",
@@ -1044,7 +1067,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:AuthorizeSecurityGroupIngress' on wildcarded resource '*'",
@@ -1067,7 +1090,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'cognito-idp:DescribeUserPoolClient' on wildcarded resource '*'",
@@ -1090,7 +1113,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:DescribeTags' on wildcarded resource '*'",
@@ -1113,7 +1136,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'iam:CreateServiceLinkedRole' on wildcarded resource '*'",
@@ -1136,7 +1159,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
@@ -1159,7 +1182,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:RegisterTargets' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
@@ -1182,7 +1205,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:ModifyLoadBalancerAttributes' on wildcarded resource '*'",
@@ -1205,7 +1228,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:DescribeTags' on wildcarded resource '*'",
@@ -1228,7 +1251,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
@@ -1251,7 +1274,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
@@ -1274,7 +1297,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
@@ -1297,7 +1320,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
@@ -1320,7 +1343,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
@@ -1343,7 +1366,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
@@ -1366,7 +1389,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:targetgroup/*/*'",
@@ -1389,7 +1412,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:CreateListener' on wildcarded resource '*'",
@@ -1412,7 +1435,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:CreateLoadBalancer' on wildcarded resource '*'",
@@ -1435,7 +1458,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:AuthorizeSecurityGroupIngress' on wildcarded resource '*'",
@@ -1458,7 +1481,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:CreateTags' on wildcarded resource 'arn:aws:ec2:*:*:security-group/*'",
@@ -1481,7 +1504,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:CreateTags' on wildcarded resource 'arn:aws:ec2:*:*:security-group/*'",
@@ -1504,7 +1527,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:CreateSecurityGroup' on wildcarded resource '*'",
@@ -1527,7 +1550,7 @@
 			"impact": "Overly permissive policies may grant access to sensitive resources",
 			"resolution": "Specify the exact permissions required, and to which resources they should apply instead of using wildcards.",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/iam/no-policy-wildcards/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
 			"description": "IAM policy document uses sensitive action 'ec2:AuthorizeSecurityGroupIngress' on wildcarded resource '*'",
@@ -1550,7 +1573,7 @@
 			"impact": "PUT calls with public ACLs specified can make objects public",
 			"resolution": "Enable blocking any PUT calls with a public ACL specified",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/s3/block-public-acls/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/block-public-acls/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#block_public_acls"
 			],
 			"description": "No public access block so not blocking public acls",
@@ -1573,7 +1596,7 @@
 			"impact": "Users could put a policy that allows public access",
 			"resolution": "Prevent policies that allow public access being PUT",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/s3/block-public-policy/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/block-public-policy/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#block_public_policy"
 			],
 			"description": "No public access block so not blocking public policies",
@@ -1596,7 +1619,7 @@
 			"impact": "The bucket objects could be read if compromised",
 			"resolution": "Configure bucket encryption",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/s3/enable-bucket-encryption/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/enable-bucket-encryption/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption"
 			],
 			"description": "Bucket does not have encryption enabled",
@@ -1619,7 +1642,7 @@
 			"impact": "There is no way to determine the access to this bucket",
 			"resolution": "Add a logging block to the resource to enable access logging",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/s3/enable-bucket-logging/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/enable-bucket-logging/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket"
 			],
 			"description": "Bucket does not have logging enabled",
@@ -1642,7 +1665,7 @@
 			"impact": "Deleted or modified data would not be recoverable",
 			"resolution": "Enable versioning to protect against accidental/malicious removal or modification",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/s3/enable-versioning/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/enable-versioning/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#versioning"
 			],
 			"description": "Bucket does not have versioning enabled",
@@ -1665,7 +1688,7 @@
 			"impact": "Using AWS managed keys does not allow for fine grained control",
 			"resolution": "Enable encryption using customer managed keys",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/s3/encryption-customer-key/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/encryption-customer-key/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption"
 			],
 			"description": "Bucket does not encrypt data with a customer managed key.",
@@ -1688,7 +1711,7 @@
 			"impact": "PUT calls with public ACLs specified can make objects public",
 			"resolution": "Enable ignoring the application of public ACLs in PUT calls",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/s3/ignore-public-acls/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/ignore-public-acls/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#ignore_public_acls"
 			],
 			"description": "No public access block so not ignoring public acls",
@@ -1711,7 +1734,7 @@
 			"impact": "Public buckets can be accessed by anyone",
 			"resolution": "Limit the access to public buckets to only the owner or AWS Services (eg; CloudFront)",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/s3/no-public-buckets/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/no-public-buckets/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#restrict_public_buckets¡"
 			],
 			"description": "No public access block so not restricting public buckets",
@@ -1734,7 +1757,7 @@
 			"impact": "Public access policies may be applied to sensitive data buckets",
 			"resolution": "Define a aws_s3_bucket_public_access_block for the given bucket to control public access policies",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/s3/specify-public-access-block/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/specify-public-access-block/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block#bucket"
 			],
 			"description": "Bucket does not have a corresponding public access block.",
@@ -1757,7 +1780,7 @@
 			"impact": "All ports exposed for ingressing/egressing data",
 			"resolution": "Set specific allowed ports",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-excessive-port-access/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-excessive-port-access/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule#to_port"
 			],
 			"description": "Network ACL rule allows access using ALL ports.",
@@ -1780,7 +1803,7 @@
 			"impact": "All ports exposed for ingressing/egressing data",
 			"resolution": "Set specific allowed ports",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-excessive-port-access/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-excessive-port-access/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule#to_port"
 			],
 			"description": "Network ACL rule allows access using ALL ports.",
@@ -1803,7 +1826,7 @@
 			"impact": "All ports exposed for ingressing/egressing data",
 			"resolution": "Set specific allowed ports",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-excessive-port-access/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-excessive-port-access/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule#to_port"
 			],
 			"description": "Network ACL rule allows access using ALL ports.",
@@ -1826,7 +1849,7 @@
 			"impact": "All ports exposed for ingressing/egressing data",
 			"resolution": "Set specific allowed ports",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-excessive-port-access/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-excessive-port-access/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule#to_port"
 			],
 			"description": "Network ACL rule allows access using ALL ports.",
@@ -1849,7 +1872,7 @@
 			"impact": "All ports exposed for ingressing/egressing data",
 			"resolution": "Set specific allowed ports",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-excessive-port-access/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-excessive-port-access/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule#to_port"
 			],
 			"description": "Network ACL rule allows access using ALL ports.",
@@ -1872,7 +1895,7 @@
 			"impact": "All ports exposed for ingressing/egressing data",
 			"resolution": "Set specific allowed ports",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-excessive-port-access/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-excessive-port-access/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule#to_port"
 			],
 			"description": "Network ACL rule allows access using ALL ports.",
@@ -1895,7 +1918,7 @@
 			"impact": "The ports are exposed for ingressing data to the internet",
 			"resolution": "Set a more restrictive cidr range",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-public-ingress-acl/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-public-ingress-acl/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule#cidr_block"
 			],
 			"description": "Network ACL rule allows ingress from public internet.",
@@ -1918,7 +1941,7 @@
 			"impact": "The ports are exposed for ingressing data to the internet",
 			"resolution": "Set a more restrictive cidr range",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-public-ingress-acl/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-public-ingress-acl/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule#cidr_block"
 			],
 			"description": "Network ACL rule allows ingress from public internet.",
@@ -1941,7 +1964,7 @@
 			"impact": "The ports are exposed for ingressing data to the internet",
 			"resolution": "Set a more restrictive cidr range",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/no-public-ingress-acl/",
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/no-public-ingress-acl/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule#cidr_block"
 			],
 			"description": "Network ACL rule allows ingress from public internet.",
@@ -1964,7 +1987,7 @@
 			"impact": "Without VPC flow logs, you risk not having enough information about network traffic flow to investigate incidents or identify security issues.",
 			"resolution": "Enable flow logs for VPC",
 			"links": [
-				"https://aquasecurity.github.io/tfsec/v1.28.10/checks/aws/ec2/require-vpc-flow-logs-for-all-vpcs/"
+				"https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/ec2/require-vpc-flow-logs-for-all-vpcs/"
 			],
 			"description": "VPC Flow Logs is not enabled for VPC ",
 			"severity": "MEDIUM",

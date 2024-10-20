@@ -1,0 +1,51 @@
+provider "aws" {
+  region = "us-west-2"
+}
+
+ terraform {
+  required_version = ">= 1.3.2"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.50"
+    }
+  }
+}
+
+
+
+
+locals {
+  domain = var.public_domain
+
+  # Removing trailing dot from domain - just to be sure :)
+  domain_name = trimsuffix(local.domain, ".")
+
+  zone_id = try(data.aws_route53_zone.this[0].zone_id, aws_route53_zone.this[0].zone_id)
+}
+
+
+
+module "acm" {
+  source  = "terraform-aws-modules/terraform-aws-acm"
+  version = "~> 5.1.1"
+
+  # providers = {
+  #   aws.acm = aws,
+  #   aws.dns = aws
+  # }
+
+  domain_name = local.domain_name
+  zone_id     = local.zone_id
+
+  subject_alternative_names = [
+    "*.${local.domain_name}",
+  ]
+
+  validation_method   = "DNS"
+  wait_for_validation = false
+
+  tags = var.tags
+
+}
