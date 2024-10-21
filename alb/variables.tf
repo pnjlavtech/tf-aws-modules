@@ -25,7 +25,9 @@ variable "public_domain" {
 variable "public_subnets" {
   description = "Public subnets"
   type        = list(string)
+  default     = ["subnet1", "subnet2", "subnet3"]
 }
+
 
 variable "tags" {
   description = "Tags to be applied to resources"
@@ -36,7 +38,7 @@ variable "tags" {
   }
 }
 
-variable "vpc_cidr" {
+variable "vpc_cidr_block" {
   description = "CIDR block for the VPC where resources will be deployed"
   type        = string
   default     = "10.230.0.0/16"
@@ -45,5 +47,5 @@ variable "vpc_cidr" {
 variable "vpc_id" {
   description = "VPC id where resources are  deployed"
   type        = string
-  default     = ""
+  default     = "vpc-id"
 }
