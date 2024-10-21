@@ -42,7 +42,7 @@ module "alb" {
   security_group_egress_rules = {
     all = {
       ip_protocol = "-1"
-      cidr_ipv4   = var.vpc_cidr
+      cidr_ipv4   = var.vpc_cidr_block
     }
   }
 
