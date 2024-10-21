@@ -13,7 +13,7 @@ terraform {
 
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
-  version = "~> 5.1.1"
+  version = ">= 9.11.1"
 
   name     = var.alb_name
   vpc_id   = var.vpc_id
