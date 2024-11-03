@@ -1,7 +1,7 @@
 variable "eks_fname" {
   description = "Cluster name for project"
   type        = string
-  default     = "dev-eks-a-us-west-2"
+  default     = "dev-us-west-2-eks-blue"
 }
 
 variable "eks_cluster_version" {
