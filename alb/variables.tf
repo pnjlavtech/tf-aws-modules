@@ -10,6 +10,24 @@ variable "alb_name" {
   default     = "alb-name"
 }
 
+variable "eks_clus" {
+  description = "Cluster - blue or green"
+  type        = string
+  default     = "blue"
+}
+
+variable "eks_fname" {
+  description = "Karpenter ASG name"
+  type        = string
+  default     = "karpenter-asg"
+}
+
+variable "env" {
+  description = "Environment name"
+  type        = string
+  default     = "dev"
+}
+
 variable "karpenter_node_group" {
   description = "Karpenter ASG name"
   type        = string
@@ -28,6 +46,11 @@ variable "public_subnets" {
   default     = ["subnet1", "subnet2", "subnet3"]
 }
 
+variable "region" {
+  description = "region name"
+  type        = string
+  default     = "us-west-2"
+}
 
 variable "tags" {
   description = "Tags to be applied to resources"

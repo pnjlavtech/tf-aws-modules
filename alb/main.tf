@@ -59,6 +59,8 @@ module "alb" {
 
   client_keep_alive = 7200
 
+  tags = var.tags
+
   listeners = {
     http-https-redirect = {
       port     = 80
@@ -124,7 +126,45 @@ module "alb" {
 
 
   target_groups = {
-    karpenter_tg = {
+
+    arcocd_tg = {
+      name_prefix                       = "h2"
+      protocol                          = "HTTP"
+      port                              = 443
+      target_type                       = "instance"
+      deregistration_delay              = 10
+      load_balancing_algorithm_type     = "weighted_random"
+      load_balancing_anomaly_mitigation = "on"
+      load_balancing_cross_zone_enabled = false
+
+      target_group_health = {
+        dns_failover = {
+          minimum_healthy_targets_count = 2
+        }
+        unhealthy_state_routing = {
+          minimum_healthy_targets_percentage = 50
+        }
+      }
+
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/healthz"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200-399"
+      }
+
+      protocol_version = "HTTP1"
+      port             = 443
+      
+      tags = merge(var.tags, {"TargetGroupTag" = "argo_tg"})
+    }
+
+    private_tg = {
       name_prefix                       = "h1"
       protocol                          = "HTTP"
       port                              = 80
@@ -156,13 +196,71 @@ module "alb" {
       }
 
       protocol_version = "HTTP1"
-      target_id        = var.karpenter_node_group
+      # target_id        = var.karpenter_node_group
       port             = 80
-      tags = {
-        InstanceTargetGroupTag = "karpenter_tg"
-      }
+      
+      tags = merge(var.tags, {"TargetGroupTag" = "private_tg"})
     }
-  }
 
+    public_tg = {
+      name_prefix                       = "h2"
+      protocol                          = "HTTP"
+      port                              = 443
+      target_type                       = "instance"
+      deregistration_delay              = 10
+      load_balancing_algorithm_type     = "weighted_random"
+      load_balancing_anomaly_mitigation = "on"
+      load_balancing_cross_zone_enabled = false
 
+      target_group_health = {
+        dns_failover = {
+          minimum_healthy_targets_count = 2
+        }
+        unhealthy_state_routing = {
+          minimum_healthy_targets_percentage = 50
+        }
+      }
+
+      health_check = {
+        enabled             = true
+        interval            = 30
+        path                = "/healthz"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200-399"
+      }
+
+      protocol_version = "HTTP1"
+      port             = 443
+      
+      tags = merge(var.tags, {"TargetGroupTag" = "public_tg"})
+    }
+ }
+}
+
+resource "aws_ssm_parameter" "ssm_argocd_tg_arn" {
+  name        = "/${var.env}/${var.region}/eks/${var.eks_clus}/argocd_tg_arn"
+  description = "ArgoCD TG ARN"
+  type        = "String"
+  value       = module.alb.target_groups.arcocd_tg.arn
+  tags        = merge(var.tags, {"ssm_param_name" = "ssm_argocd_tg_arn"})
+}
+
+resource "aws_ssm_parameter" "ssm_private_tg_arn" {
+  name        = "/${var.env}/${var.region}/eks/${var.eks_clus}/private_tg_arn"
+  description = "Private TG ARN"
+  type        = "String"
+  value       = module.alb.target_groups.private_tg.arn
+  tags        = merge(var.tags, {"ssm_param_name" = "ssm_private_tg_arn"})
+}
+
+resource "aws_ssm_parameter" "ssm_public_tg_arn" {
+  name        = "/${var.env}/${var.region}/eks/${var.eks_clus}/public_tg_arn"
+  description = "Public TG ARN"
+  type        = "String"
+  value       = module.alb.target_groups.public_tg.arn
+  tags        = merge(var.tags, {"ssm_param_name" = "ssm_public_tg_arn"})
 }
