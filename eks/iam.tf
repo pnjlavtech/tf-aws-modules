@@ -379,43 +379,48 @@ resource "aws_iam_role_policy_attachment" "eks_external_secrets_iam_role_policy_
 
 
 resource "aws_ssm_parameter" "eks_alb_iam_role_parameter" {
-  name        = "${var.eks_fname}--eks_alb_iam_role_parameter"
-  description = "Parameter that stores the eks_alb_iam_role name and ARN"
-  value       = jsonencode({
-    role_name = aws_iam_role.eks_alb_iam_role.name,
-    role_arn  = aws_iam_role.eks_alb_iam_role.arn
-  })
+  name        = "/${var.env}/${var.region}/eks/${var.eks_clus}/alb_iam_role"
+  description = "Parameter that stores the eks_alb_iam_role name ARN"
+  value       = aws_iam_role.eks_alb_iam_role.arn
   type        = "String"
 
   tags = merge(var.tags, {
-    Name = "${var.eks_fname}--eks_alb_iam_role--parameter"
+    Name = "/${var.env}/${var.region}/eks/${var.eks_clus}/alb_iam_role"
   })
 }
 
 resource "aws_ssm_parameter" "eks_external_dns_iam_role_parameter" {
-  name        = "${var.eks_fname}--eks_external_dns_iam_role"
-  description = "Parameter that stores the eks_external_dns_iam_role name and ARN"
-  value       = jsonencode({
-    role_name = aws_iam_role.eks_external_dns_iam_role.name,
-    role_arn  = aws_iam_role.eks_external_dns_iam_role.arn
-  })
+  name        = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_dns_iam_role"
+  description = "Parameter that stores the eks_external_dns_iam_role ARN"
+  value       = aws_iam_role.eks_external_dns_iam_role.arn
   type        = "String"
 
   tags = merge(var.tags, {
-    Name = "${var.eks_fname}--eks_external_dns_iam_role--parameter"
+    Name = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_dns_iam_role"
   })
 }
 
 resource "aws_ssm_parameter" "eks_external_secrets_iam_role_parameter" {
-  name        = "${var.eks_fname}--eks_external_secrets_iam_role_parameter"
-  description = "Parameter that stores the eks_external_secrets_iam_role name and ARN"
-  value       = jsonencode({
-    role_name = aws_iam_role.eks_external_secrets_iam_role.name,
-    role_arn  = aws_iam_role.eks_external_secrets_iam_role.arn
-  })
+  name        = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_secrets_iam_role"
+  description = "Parameter that stores the eks_external_secrets_iam_role ARN"
+  value       = aws_iam_role.eks_external_secrets_iam_role.arn
   type        = "String"
 
   tags = merge(var.tags, {
-    Name = "${var.eks_fname}--eks_external_secrets_iam_role--parameter"
+    Name = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_secrets_iam_role"
   })
 }
+
+
+  # value       = jsonencode({
+  #   role_name = aws_iam_role.eks_alb_iam_role.name,
+  #   role_arn  = aws_iam_role.eks_alb_iam_role.arn
+  # })
+  # value       = jsonencode({
+  #   role_name = aws_iam_role.eks_external_dns_iam_role.name,
+  #   role_arn  = aws_iam_role.eks_external_dns_iam_role.arn
+  # })
+  # value       = jsonencode({
+  #   role_name = aws_iam_role.eks_external_secrets_iam_role.name,
+  #   role_arn  = aws_iam_role.eks_external_secrets_iam_role.arn
+  # })

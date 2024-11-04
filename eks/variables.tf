@@ -1,7 +1,7 @@
-variable "eks_fname" {
-  description = "Cluster name for project"
+variable "eks_clus" {
+  description = "Cluster - blue or green"
   type        = string
-  default     = "dev-us-west-2-eks-blue"
+  default     = "blue"
 }
 
 variable "eks_cluster_version" {
@@ -10,6 +10,17 @@ variable "eks_cluster_version" {
   default     = "1.30"
 }
 
+variable "eks_fname" {
+  description = "Cluster name for project"
+  type        = string
+  default     = "dev-us-west-2-eks-blue"
+}
+
+variable "env" {
+  description = "Environment"
+  type        = string
+  default     = "dev"
+}
 
 variable "intra_subnets" {
   description = "List of intra subnet ids"
