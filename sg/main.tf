@@ -10,13 +10,15 @@ terraform {
 }
 
 
-module "alb-security-group" {
+module "alb_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 5.2.0"
 
   name        = var.alb_sg_name
   description = "Security group for ALB"
   vpc_id      = var.vpc_id
+
+  use_name_prefix = false
 
   ingress_with_cidr_blocks = [
     {

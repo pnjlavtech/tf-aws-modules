@@ -1787,7 +1787,7 @@
 			"severity": "CRITICAL",
 			"warning": false,
 			"status": 0,
-			"resource": "module.alb-security-group",
+			"resource": "module.alb_security_group",
 			"location": {
 				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
 				"start_line": 658,
@@ -1810,7 +1810,7 @@
 			"severity": "CRITICAL",
 			"warning": false,
 			"status": 0,
-			"resource": "module.alb-security-group",
+			"resource": "module.alb_security_group",
 			"location": {
 				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
 				"start_line": 197,
@@ -1833,7 +1833,7 @@
 			"severity": "CRITICAL",
 			"warning": false,
 			"status": 0,
-			"resource": "module.alb-security-group",
+			"resource": "module.alb_security_group",
 			"location": {
 				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
 				"start_line": 197,
