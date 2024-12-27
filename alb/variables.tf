@@ -10,6 +10,12 @@ variable "alb_name" {
   default     = "alb-name"
 }
 
+variable "alb_sg" {
+  description = "ALB SG id "
+  type        = string
+  default     = "sg-13345345356"
+}
+
 variable "eks_clus" {
   description = "Cluster - blue or green"
   type        = string
@@ -34,6 +40,11 @@ variable "karpenter_node_group" {
   default     = "karpenter-asg"
 }
 
+variable "karpenter_node_ids" { 
+  description = "A list of Karpenter node instance IDs" 
+  type = list(string) 
+}
+
 variable "public_domain" {
   description = "Public DNS zone name"
   type        = string
@@ -44,6 +55,16 @@ variable "public_subnets" {
   description = "Public subnets"
   type        = list(string)
   default     = ["subnet1", "subnet2", "subnet3"]
+}
+
+variable "public_subnet_ids" {
+  description = "A list of public subnet IDs"
+  type        = list(string)
+}
+
+variable "private_subnet_ids" {
+  description = "A list of private subnet IDs"
+  type        = list(string)
 }
 
 variable "region" {
