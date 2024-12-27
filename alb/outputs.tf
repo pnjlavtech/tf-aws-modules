@@ -1,76 +1,86 @@
-################################################################################
-# Load Balancer
-################################################################################
-
-output "id" {
-  description = "The ID and ARN of the load balancer we created"
-  value       = module.alb.id
+output "public_alb_dns_name" {
+  value = aws_lb.public_alb.dns_name
 }
 
-output "arn" {
-  description = "The ID and ARN of the load balancer we created"
-  value       = module.alb.arn
+output "private_alb_dns_name" {
+  value = aws_lb.private_alb.dns_name
 }
 
-output "arn_suffix" {
-  description = "ARN suffix of our load balancer - can be used with CloudWatch"
-  value       = module.alb.arn_suffix
-}
 
-output "dns_name" {
-  description = "The DNS name of the load balancer"
-  value       = module.alb.dns_name
-}
 
-output "zone_id" {
-  description = "The zone_id of the load balancer to assist with creating DNS records"
-  value       = module.alb.zone_id
-}
+# ################################################################################
+# # Load Balancer
+# ################################################################################
 
-################################################################################
-# Listener(s)
-################################################################################
+# output "id" {
+#   description = "The ID and ARN of the load balancer we created"
+#   value       = module.alb.id
+# }
 
-output "listeners" {
-  description = "Map of listeners created and their attributes"
-  value       = module.alb.listeners
-  sensitive   = true
-}
+# output "arn" {
+#   description = "The ID and ARN of the load balancer we created"
+#   value       = module.alb.arn
+# }
 
-output "listener_rules" {
-  description = "Map of listeners rules created and their attributes"
-  value       = module.alb.listener_rules
-  sensitive   = true
-}
+# output "arn_suffix" {
+#   description = "ARN suffix of our load balancer - can be used with CloudWatch"
+#   value       = module.alb.arn_suffix
+# }
 
-################################################################################
-# Target Group(s)
-################################################################################
+# output "dns_name" {
+#   description = "The DNS name of the load balancer"
+#   value       = module.alb.dns_name
+# }
 
-output "target_groups" {
-  description = "Map of target groups created and their attributes"
-  value       = module.alb.target_groups
-}
+# output "zone_id" {
+#   description = "The zone_id of the load balancer to assist with creating DNS records"
+#   value       = module.alb.zone_id
+# }
 
-################################################################################
-# Security Group
-################################################################################
+# ################################################################################
+# # Listener(s)
+# ################################################################################
 
-output "security_group_arn" {
-  description = "Amazon Resource Name (ARN) of the security group"
-  value       = module.alb.security_group_arn
-}
+# output "listeners" {
+#   description = "Map of listeners created and their attributes"
+#   value       = module.alb.listeners
+#   sensitive   = true
+# }
 
-output "security_group_id" {
-  description = "ID of the security group"
-  value       = module.alb.security_group_id
-}
+# output "listener_rules" {
+#   description = "Map of listeners rules created and their attributes"
+#   value       = module.alb.listener_rules
+#   sensitive   = true
+# }
 
-################################################################################
-# Route53 Record(s)
-################################################################################
+# ################################################################################
+# # Target Group(s)
+# ################################################################################
 
-output "route53_records" {
-  description = "The Route53 records created and attached to the load balancer"
-  value       = module.alb.route53_records
-}
+# output "target_groups" {
+#   description = "Map of target groups created and their attributes"
+#   value       = module.alb.target_groups
+# }
+
+# ################################################################################
+# # Security Group
+# ################################################################################
+
+# output "security_group_arn" {
+#   description = "Amazon Resource Name (ARN) of the security group"
+#   value       = module.alb.security_group_arn
+# }
+
+# output "security_group_id" {
+#   description = "ID of the security group"
+#   value       = module.alb.security_group_id
+# }
+
+# ################################################################################
+# # Route53 Record(s)
+# ################################################################################
+
+# output "route53_records" {
+#   description = "The Route53 records created and attached to the load balancer"
+#   value       = module.alb.route53_records
+# }
