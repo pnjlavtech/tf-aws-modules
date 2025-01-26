@@ -1,58 +1,68 @@
+module "alb_sg_argo" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "~> 5.2.0"
+
+  name        = "alb-sg-${var.name_argo}"
+  description = "Security group for ARGO ALB"
+  vpc_id      = var.vpc_id
+
+  use_name_prefix = false
+
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      description = "Port 80 (ipv4)"
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      description = "Port 443 (ipv4)"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+
+  egress_with_cidr_blocks = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      description = "User-service ports (ipv4)"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
+
+  tags = merge(var.tags, {
+    "Name" = "alb-sg-${var.name_argo}"
+  })
+}
+
+
 resource "aws_lb" "alb_argo" {
   count = var.create_alb_for_argocd ? 1 : 0
 
   name               = var.name_argo
   internal           = true
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb_sg_argo[0].id]
+  security_groups    = [module.alb_sg_argo.id]
   subnets            = var.private_subnets
 
   enable_deletion_protection = var.alb_enable_deletion_protection
 
   tags = merge(var.tags, {
-    "alb_name" = aws_lb.alb_argo.name
+    "Name" = "alb-${var.name_argo}"
   })
 }
 
-resource "aws_security_group" "alb_sg_argo" {
-  count = var.create_alb_for_argocd ? 1 : 0
 
-  name        = "${var.name_argo}-alb-sg"
-  description = "Allow connections to ${var.name_argo}"
-  vpc_id      = var.vpc_id
-
-  tags = merge(var.tags, {
-    "alb_sg_name" = aws_lb.alb_argo.name
-  })
-}
-
-resource "aws_security_group_rule" "alb_sg_rules_argo" {
-  for_each = {
-    for k, v in var.alb_sg_rules_argo :
-    k => v
-    if var.create_alb_for_argocd
-  }
-
-  # Required
-  security_group_id = aws_security_group.alb_sg_argo[0].id
-  protocol          = each.value.protocol
-  from_port         = each.value.from_port
-  to_port           = each.value.to_port
-  type              = each.value.type
-
-  # Optional
-  description              = lookup(each.value, "description", null)
-  cidr_blocks              = lookup(each.value, "cidr_blocks", null)
-  ipv6_cidr_blocks         = lookup(each.value, "ipv6_cidr_blocks", null)
-  prefix_list_ids          = lookup(each.value, "prefix_list_ids", null)
-  self                     = lookup(each.value, "self", null)
-  source_security_group_id = lookup(each.value, "source_security_group_id", null)
-}
 
 resource "aws_lb_target_group" "alb_tg_eks_blue_argo" {
   count = var.create_alb_for_argocd ? 1 : 0
 
-  name             = "${var.name_argo}-tg-eks-blue"
+  name             = "tg-eks-blue-${var.name_argo}"
   target_type      = "ip"
   port             = 80
   protocol         = "HTTP"
@@ -67,7 +77,7 @@ resource "aws_lb_target_group" "alb_tg_eks_blue_argo" {
   }
 
   tags = merge(var.tags, {
-    "alb_tg_name" = aws_lb_target_group.alb_tg_eks_blue_argo.name
+    "Name" = "tg-eks-blue-${var.name_argo}"
   })
 }
 
