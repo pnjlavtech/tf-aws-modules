@@ -47,7 +47,7 @@ resource "aws_lb" "alb_argo" {
   name               = var.name_argo
   internal           = true
   load_balancer_type = "application"
-  security_groups    = [module.alb_sg_argo.id]
+  security_groups    = [module.security_group_id]
   subnets            = var.private_subnets
 
   enable_deletion_protection = var.alb_enable_deletion_protection
