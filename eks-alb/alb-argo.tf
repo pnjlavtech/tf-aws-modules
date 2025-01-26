@@ -1,20 +1,3 @@
-resource "aws_lb" "alb_argo" {
-  count = var.create_alb_for_argocd ? 1 : 0
-
-  name               = var.name_argo
-  internal           = true
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb_sg_argo[0].id]
-  subnets            = var.private_subnets
-
-  enable_deletion_protection = var.alb_enable_deletion_protection
-
-  tags = merge(var.tags, {
-    "Name" = "alb-${var.name_argo}"
-  })
-}
-
-
 module "alb_sg_argo" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 5.2.0"
@@ -56,6 +39,24 @@ module "alb_sg_argo" {
     "Name" = "alb-sg-${var.name_argo}"
   })
 }
+
+
+resource "aws_lb" "alb_argo" {
+  count = var.create_alb_for_argocd ? 1 : 0
+
+  name               = var.name_argo
+  internal           = true
+  load_balancer_type = "application"
+  security_groups    = [module.alb_sg_argo.id]
+  subnets            = var.private_subnets
+
+  enable_deletion_protection = var.alb_enable_deletion_protection
+
+  tags = merge(var.tags, {
+    "Name" = "alb-${var.name_argo}"
+  })
+}
+
 
 
 resource "aws_lb_target_group" "alb_tg_eks_blue_argo" {
