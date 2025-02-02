@@ -3,7 +3,7 @@ resource "aws_route53_record" "dns_record_argo" {
 
   allow_overwrite = true
 
-  zone_id = data.aws_route53_zone.route53_zone_argocd[0].id
+  zone_id = data.aws_route53_zone.this.zone_id
   name    = var.domain_name_argo
   type    = "A"
   alias {
