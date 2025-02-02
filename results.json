@@ -288,7 +288,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.13/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:DescribeTags' on wildcarded resource '*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -357,7 +357,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.13/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:DescribeTags' on wildcarded resource '*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -380,7 +380,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.13/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -1996,7 +1996,7 @@
 			"status": 0,
 			"resource": "module.alb_security_group",
 			"location": {
-				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
+				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=badbab67cd0d7f976523fd44647e1ee9fb87001b/main.tf",
 				"start_line": 658,
 				"end_line": 665
 			}
@@ -2019,7 +2019,7 @@
 			"status": 0,
 			"resource": "module.alb_security_group",
 			"location": {
-				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
+				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=badbab67cd0d7f976523fd44647e1ee9fb87001b/main.tf",
 				"start_line": 197,
 				"end_line": 204
 			}
@@ -2042,7 +2042,7 @@
 			"status": 0,
 			"resource": "module.alb_security_group",
 			"location": {
-				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
+				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=badbab67cd0d7f976523fd44647e1ee9fb87001b/main.tf",
 				"start_line": 197,
 				"end_line": 204
 			}
