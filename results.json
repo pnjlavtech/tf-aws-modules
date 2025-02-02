@@ -242,7 +242,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.13/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -288,7 +288,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.13/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:DescribeTags' on wildcarded resource '*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -357,7 +357,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.13/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:AddTags' on wildcarded resource 'arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:DescribeTags' on wildcarded resource '*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -826,6 +826,29 @@
 				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
 				"start_line": 197,
 				"end_line": 204
+			}
+		},
+		{
+			"rule_id": "AVD-AWS-0052",
+			"long_id": "aws-elb-drop-invalid-headers",
+			"rule_description": "Load balancers should drop invalid headers",
+			"rule_provider": "aws",
+			"rule_service": "elb",
+			"impact": "Invalid headers being passed through to the target of the load balance may exploit vulnerabilities",
+			"resolution": "Set drop_invalid_header_fields to true",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.13/checks/aws/elb/drop-invalid-headers/",
+				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb#drop_invalid_header_fields"
+			],
+			"description": "Application load balancer is not set to drop invalid headers.",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "aws_lb.alb_argo[0]",
+			"location": {
+				"filename": "/github/workspace/eks-alb/alb-argo.tf",
+				"start_line": 44,
+				"end_line": 58
 			}
 		},
 		{
@@ -1973,7 +1996,7 @@
 			"status": 0,
 			"resource": "module.alb_security_group",
 			"location": {
-				"filename": "terraform-aws-modules/security-group/aws/main.tf",
+				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
 				"start_line": 658,
 				"end_line": 665
 			}
@@ -1996,7 +2019,7 @@
 			"status": 0,
 			"resource": "module.alb_security_group",
 			"location": {
-				"filename": "terraform-aws-modules/security-group/aws/main.tf",
+				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
 				"start_line": 197,
 				"end_line": 204
 			}
@@ -2019,7 +2042,7 @@
 			"status": 0,
 			"resource": "module.alb_security_group",
 			"location": {
-				"filename": "terraform-aws-modules/security-group/aws/main.tf",
+				"filename": "git::https:/github.com/terraform-aws-modules/terraform-aws-security-group?ref=eb9fb97125c6fd9556287193150a628cdddf5c4d/main.tf",
 				"start_line": 197,
 				"end_line": 204
 			}
