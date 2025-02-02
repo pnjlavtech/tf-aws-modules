@@ -67,13 +67,13 @@ variable "create_dns_record_argo" {
 }
 
 variable "create_alb_for_argocd" {
-  default = false
+  default = true
   type    = bool
 }
 
 variable "domain_name_argo" {
   description = "For alb listener. Domain of the certificate to look up. If no certificate is found with this name, an error will be returned"
-  default     = "domain.com"
+  default     = "argocd.eks.us-west-2.dev.domain.com"
   type        = string
 }
 
@@ -91,7 +91,7 @@ variable "eks_clus" {
 variable "eks_fname" {
   description = "Cluster name for project"
   type        = string
-  default     = "dev-us-west-2-eks-blue"
+  default     = "eks-blue-us-west-2-dev"
 }
 
 variable "env" {
@@ -103,7 +103,7 @@ variable "env" {
 variable "name_argo" {
   description = "Argo name"
   type        = string
-  default     = "argo-cd"
+  default     = "argocd"
 }
 
 variable "private_subnets" {
@@ -132,12 +132,12 @@ variable "region" {
 }
 
 variable "route53_zone_name" {
-  default = ""
+  default = "domain.com"
   type    = string
 }
 
 variable "route53_zone_name_argo" {
-  default = ""
+  default = "domain.com"
   type    = string
 }
 
@@ -160,7 +160,7 @@ variable "tags" {
   description = "Tags"
   type        = map(string)
   default = {
-    module = "eks"
+    module = "eks-alb"
   }
 }
 

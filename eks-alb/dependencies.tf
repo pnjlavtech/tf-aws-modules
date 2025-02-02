@@ -18,3 +18,5 @@ data "aws_route53_zone" "route53_zone_argocd" {
   private_zone = var.route53_zone_private_argocd
 }
 
+
+
