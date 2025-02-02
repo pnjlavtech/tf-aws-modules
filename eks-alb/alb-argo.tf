@@ -1,3 +1,10 @@
+locals {
+  public_domain    = var.public_domain
+  domain_name_argo = coalesce(var.domain_name_argo, "argocd.eks.${var.region}.${var.env}.${local.public_domain}")
+ 
+}
+
+
 module "alb_sg_argo" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "5.3.0"
