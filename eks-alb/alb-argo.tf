@@ -120,7 +120,7 @@ resource "aws_lb_listener" "alb_listener_https_argo" {
   load_balancer_arn = aws_lb.alb_argo[0].arn
   port              = "443"
   protocol          = "HTTPS"
-  certificate_arn   = data.aws_acm_certificate.acm_certificate_argo.arn
+  certificate_arn   = module.acm["argocd"].aws_acm_certificate.this[0]
 
   default_action {
     type = "fixed-response"
