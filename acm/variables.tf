@@ -1,3 +1,10 @@
+variable "domain_name_argo" {
+  description = "Argocd domain name for ACM certificate creation"
+  default     = "argocd.eks.us-west-2.dev.domain.com"
+  type        = string
+}
+
+
 variable "public_domain" {
   description = "Public DNS zone name"
   type        = string
