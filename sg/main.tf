@@ -12,7 +12,7 @@ terraform {
 
 module "alb_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "~> 5.2.0"
+  version = "5.3.0"
 
   name        = var.alb_sg_name
   description = "Security group for ALB"
