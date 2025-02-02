@@ -1,6 +1,6 @@
 module "alb_sg_argo" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "~> 5.2.0"
+  version = "5.2.0"
 
   name        = "alb-sg-${var.name_argo}"
   description = "Security group for ARGO ALB"
