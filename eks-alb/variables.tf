@@ -62,7 +62,7 @@ variable "alb_traffic_weight_to_eks_blue_argo" {
 }
 
 variable "create_dns_record_argo" {
-  default = false
+  default = true
   type    = bool
 }
 
