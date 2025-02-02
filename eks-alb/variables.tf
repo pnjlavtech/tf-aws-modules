@@ -1,5 +1,5 @@
-variable "acm_certificate_arn" {
-  description = "ACM certificate arn"
+variable "acm_certificate_argo" {
+  description = "ACM certificate arn for ARGO"
   type        = string
   default     = "arn:aws:acm:us-west-2:***:certificate/uuid"
 }
