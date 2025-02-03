@@ -109,7 +109,12 @@ variable "name_argo" {
 variable "private_subnets" {
   description = "List of private subnet ids"
   type        = list(string)
+}
 
+variable "private_domain_cert_arn" {
+  default     = ""
+  description = "For alb listener, certificate ARNto look up"
+  type        = string
 }
 
 variable "public_domain" {
@@ -117,6 +122,12 @@ variable "public_domain" {
   type        = string
 
   default = "domain.com"
+}
+
+variable "public_domain_cert_arn" {
+  default     = ""
+  description = "For alb listener, certificate ARN to look up"
+  type        = string
 }
 
 variable "public_subnets" {
