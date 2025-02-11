@@ -13,8 +13,10 @@ variable "eks_cluster_version" {
 variable "eks_fname" {
   description = "Cluster name for project"
   type        = string
-  default     = "dev-us-west-2-eks-blue"
+  default     = "eks-blue-us-west-2-dev"
 }
+
+# "karpenter.sh/discovery" = var.eks_fname
 
 variable "env" {
   description = "Environment"
@@ -53,13 +55,11 @@ variable "tags" {
   default = {
     module = "eks"
   }
-
 }
 
 variable "vpc_id" {
   description = "VPC ID"
   type        = string
-
   default = "vpc-0d92a29a969c4f59d"
-
 }
+     
