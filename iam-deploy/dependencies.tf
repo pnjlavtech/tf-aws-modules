@@ -12,6 +12,11 @@ data "aws_iam_policy_document" "github_oidc_role_policy" {
       identifiers = [data.aws_iam_openid_connect_provider.github.arn]
     }
     condition {
+      test     = "StringEquals"
+      values   = ["sts.amazonaws.com"]
+      variable = "token.actions.githubusercontent.com:aud"
+    }
+    condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
       values   = [
