@@ -14,9 +14,15 @@ variable "intra_subnet_tags" {
   type        = map(string)
 
   default = {
-    module-component      = "subnet"
-    module-component-type = "subnet-intra"
+    ModuleComponent     = "subnet"
+    ModuleComponentType = "subnet-intra"
   }
+}
+
+variable "name" {
+  type        = string
+  description = "The name of the resource"
+  default     = "env-region-vpc"
 }
 
 variable "private_subnets" {
@@ -29,8 +35,8 @@ variable "private_subnet_tags" {
   type        = map(string)
 
   default = {
-    module-component      = "subnet"
-    module-component-type = "subnet-private"
+    ModuleComponent     = "subnet"
+    ModuleComponentType = "subnet-private"
   }
 }
 
@@ -44,8 +50,8 @@ variable "public_subnet_tags" {
   type        = map(string)
 
   default = {
-    module-component      = "subnet"
-    module-component-type = "subnet-public"
+    ModuleComponent     = "subnet"
+    ModuleComponentType = "subnet-public"
   }
 }
 
