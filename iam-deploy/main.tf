@@ -12,7 +12,7 @@ locals {
 
 resource "aws_iam_role" "github_actions_deploy_role" {
   # name = var.deploy_role_name
-  name = "${local.environment}-${var.region_code}-iam-role-github-actions-deploy"
+  name = "${local.environment}-iam-role-github-actions-deploy"
 
   assume_role_policy = data.aws_iam_policy_document.github_oidc_role_policy.json
 
@@ -34,17 +34,65 @@ resource "aws_iam_policy" "github_actions_deploy_policy" {
     Version = "2012-10-17",
     Statement = [
       {
-        Action = [
+        Sid = "AllowCommonDeploymentServices",
+        Action = [ // Include only necessary permissions
           "ec2:*",
           "s3:*",
-          "eks:*",
-          "iam:*",
+          "rds:*",
+          "lambda:*",
+          "cloudformation:*",
           "cloudwatch:*",
+          "autoscaling:*",
           "elasticloadbalancing:*",
+          "route53:*",
+          "dynamodb:*",
+          "eks:*",
+          "ecs:*",
+          "ecr:*",
+          "sns:*",
+          "sqs:*",
+          "elasticbeanstalk:*",
+          "kinesis:*",
+          "logs:*",
+          "events:*",          
+          "iam:*",
+          "secretsmanager:*",
+          "ssm:*",
           "kms:*",
-          // Include only necessary permissions
-        ],
+          # "apigateway:*",
+          "cloudfront:*",
+          "acm:*",
+          "cloudtrail:*",
+          "config:*",
+          "guardduty:*",
+          "inspector:*",
+          "waf:*",
+          "shield:*",
+          "waf-regional:*",
+          "wafv2:*",
+          "xray:*",
+          "resource-groups:*",
+          "resource-explorer:*",
+          "servicecatalog:*",
+          "servicequotas:*",],
         Effect   = "Allow",
+        Resource = "*"
+      },
+      {
+        Sid = "DenySensitiveActions",
+        Action = [
+          # "iam:*",
+          "organizations:*",
+          "account:*",
+          "sts:*",
+          "signin:*",
+          "support:*",
+          "billing:*",
+          "aws-portal:*",
+          "budgets:*",
+          "cur:*",
+          "ce:*",],
+        Effect   = "Deny",
         Resource = "*"
       }
     ]
