@@ -59,14 +59,22 @@ module "karpenter" {
 
   cluster_name = var.cluster_name
 
-  enable_pod_identity             = true
+  enable_v1_permissions = true
+
+
+  # Name needs to match role name passed to the EC2NodeClass
+  node_iam_role_use_name_prefix   = false
+  node_iam_role_name              = var.cluster_name
   create_pod_identity_association = true
+  # ? re: below
+  # enable_pod_identity             = true
 
   # Used to attach additional IAM policies to the Karpenter node IAM role
   node_iam_role_additional_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
 
+  
   tags = var.tags
 }
 
@@ -110,20 +118,26 @@ resource "helm_release" "karpenter" {
 
   values = [
     <<-EOT
+    nodeSelector:
+      karpenter.sh/controller: 'true'
+    dnsPolicy: Default
     serviceAccount:
       name: ${module.karpenter.service_account}
     settings:
       clusterName: ${var.cluster_name}
       clusterEndpoint: ${var.cluster_endpoint}
       interruptionQueue: ${module.karpenter.queue_name}
+    webhook:
+      enabled: false
     EOT
   ]
 }
 
 
+
 resource "kubectl_manifest" "karpenter_node_class" {
   yaml_body = <<-YAML
-    apiVersion: karpenter.k8s.aws/v1beta1
+    apiVersion: karpenter.k8s.aws/v1
     kind: EC2NodeClass
     metadata:
       name: default
@@ -153,7 +167,7 @@ resource "kubectl_manifest" "karpenter_node_class" {
 
 resource "kubectl_manifest" "karpenter_node_pool" {
   yaml_body = <<-YAML
-    apiVersion: karpenter.sh/v1beta1
+    apiVersion: karpenter.sh/v1
     kind: NodePool
     metadata:
       name: default
@@ -166,6 +180,8 @@ resource "kubectl_manifest" "karpenter_node_pool" {
       template:
         spec:
           nodeClassRef:
+            group: karpenter.k8s.aws
+            kind: EC2NodeClass
             name: default
           requirements:
             - key: "karpenter.k8s.aws/instance-category"
@@ -193,8 +209,8 @@ resource "kubectl_manifest" "karpenter_node_pool" {
 }
 
 # This is needed one time per account, only once at initial run.
-# resource "aws_iam_service_linked_role" "spot" {
-#   aws_service_name = "spot.amazonaws.com"
-#   # custom_suffix    = "--karpenter-spot"
-# }
+resource "aws_iam_service_linked_role" "spot" {
+  aws_service_name = "spot.amazonaws.com"
+  # custom_suffix    = "--karpenter-spot"
+}
 
