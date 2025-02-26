@@ -42,6 +42,7 @@ resource "aws_iam_policy" "github_actions_deploy_policy" {
           "cloudwatch:*",
           "elasticloadbalancing:*",
           "kms:*",
+          "dynamodb:*",
           // Include only necessary permissions
         ],
         Effect   = "Allow",
