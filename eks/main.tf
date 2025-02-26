@@ -9,7 +9,7 @@ provider "aws" {
 }
 
  terraform {
-  required_version = ">= 1.3.2"
+  required_version = ">= 1.8.1"
 
   required_providers {
     aws = {
@@ -26,7 +26,15 @@ provider "aws" {
 
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
-  version = "~> 20.0"
+  version = "~> 20.33.0"
+
+
+  # When enabling authentication_mode = "API_AND_CONFIG_MAP", 
+  # EKS will automatically create an access entry for the IAM role(s) used by managed node group(s) 
+  # There are no additional actions required by users. 
+  # For self-managed node groups and the Karpenter sub-module, 
+  # this project automatically adds the access entry on behalf of users so there are no additional actions required by users.
+  authentication_mode = "API_AND_CONFIG_MAP"
 
   cluster_name    = var.eks_fname
   cluster_version = var.eks_cluster_version
@@ -44,6 +52,7 @@ module "eks" {
     vpc-cni                = {}
   }
 
+
   vpc_id                   = var.vpc_id
   subnet_ids               = var.private_subnets
   control_plane_subnet_ids = var.intra_subnets
@@ -57,6 +66,10 @@ module "eks" {
       max_size     = 5
       desired_size = 2
 
+      labels = {
+      # Used to ensure Karpenter runs on nodes that it does not manage
+      "karpenter.sh/controller" = "true"
+      }      
       taints = {
         # This Taint aims to keep just EKS Addons and Karpenter running on this MNG
         # The pods that do not tolerate this taint should run on nodes created by Karpenter

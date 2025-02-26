@@ -220,6 +220,11 @@ resource "aws_iam_policy" "eks_alb_iam_policy" {
       ]
       Version = "2012-10-17"
   })
+
+  # tags = merge(var.tags, {
+  #   "Purpose" = "EKS ALB IAM Policy"
+  # })
+
 }
 
 
@@ -240,7 +245,8 @@ resource "aws_iam_policy" "eks_external_secrets_iam_policy" {
           "secretsmanager:GetResourcePolicy",
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret",
-          "secretsmanager:ListSecretVersionIds"
+          "secretsmanager:ListSecretVersionIds",
+          "ssm:GetParameter*",
         ],
         "Resource": [
           "arn:aws:secretsmanager:*:*:secret:*"
@@ -280,10 +286,10 @@ resource "aws_iam_role" "eks_alb_iam_role" {
   )
 
   tags = merge(var.tags, {
-    "Name"            = "${var.eks_fname}-alb-iam-role"
-    "k8s-kind--name"  = "ServiceAccount--${var.eks_fname}-alb-iam-role"
-    "down-stream-dep" = "helm-release--alb-ingress"
-    "helm-release"    = "alb-ingress"
+    "Name"          = "${var.eks_fname}-alb-iam-role"
+    "K8sKindName"   = "ServiceAccount--${var.eks_fname}-alb-iam-role"
+    "DownstreamDep" = "helm-release--alb-ingress"
+    "helm-release"  = "alb-ingress"
   })
 
 }
@@ -314,10 +320,10 @@ resource "aws_iam_role" "eks_external_dns_iam_role" {
   )
 
   tags = merge(var.tags, {
-    "Name"           = "${var.eks_fname}-external-dns-iam-role"
-    "k8s-kind--name" = "ServiceAccount--${var.eks_fname}-external-dns-iam-role"
-    "down-stream-dep" = "helm-release--external-dns"
-    "helm-release"   = "external-dns"
+    "Name"          = "${var.eks_fname}-external-dns-iam-role"
+    "K8sKindName"   = "ServiceAccount--${var.eks_fname}-external-dns-iam-role"
+    "DownstreamDep" = "helm-release--external-dns"
+    "helm-release"  = "external-dns"
   })
 
 }
@@ -347,10 +353,10 @@ resource "aws_iam_role" "eks_external_secrets_iam_role" {
   )
 
   tags = merge(var.tags, {
-    "Name"           = "${var.eks_fname}-external-secrets-iam-role"
-    "k8s-kind--name" = "ServiceAccount--${var.eks_fname}-external-secrets-iam-role"
-    "down-stream-dep" = "helm-release--external-secrets"
-    "helm-release"   = "external-secrets"
+    "Name"          = "${var.eks_fname}-external-secrets-iam-role"
+    "K8sKindName"   = "ServiceAccount--${var.eks_fname}-external-secrets-iam-role"
+    "DownstreamDep" = "helm-release--external-secrets"
+    "helm-release"  = "external-secrets"
   })
 
 }
@@ -385,7 +391,8 @@ resource "aws_ssm_parameter" "eks_alb_iam_role_parameter" {
   type        = "String"
 
   tags = merge(var.tags, {
-    Name = "/${var.env}/${var.region}/eks/${var.eks_clus}/alb_iam_role"
+    Name   = "/${var.env}/${var.region}/eks/${var.eks_clus}/alb_iam_role"
+    Module = "ssm"
   })
 }
 
@@ -396,7 +403,8 @@ resource "aws_ssm_parameter" "eks_external_dns_iam_role_parameter" {
   type        = "String"
 
   tags = merge(var.tags, {
-    Name = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_dns_iam_role"
+    Name   = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_dns_iam_role"
+    Module = "ssm"
   })
 }
 
@@ -407,7 +415,8 @@ resource "aws_ssm_parameter" "eks_external_secrets_iam_role_parameter" {
   type        = "String"
 
   tags = merge(var.tags, {
-    Name = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_secrets_iam_role"
+    Name   = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_secrets_iam_role"
+    Module = "ssm"
   })
 }
 

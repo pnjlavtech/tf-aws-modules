@@ -7,13 +7,13 @@ variable "eks_clus" {
 variable "eks_cluster_version" {
   description = "Kubernetes version for EKS cluster"
   type        = string
-  default     = "1.30"
+  default     = "1.3.1"
 }
 
 variable "eks_fname" {
   description = "Cluster name for project"
   type        = string
-  default     = "eks-blue-us-west-2-dev"
+  default     = "dev-usw2-eks-blue"
 }
 
 # "karpenter.sh/discovery" = var.eks_fname
