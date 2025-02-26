@@ -12,7 +12,7 @@ locals {
 
 resource "aws_iam_role" "github_actions_deploy_role" {
   # name = var.deploy_role_name
-  name = "${local.environment}-${var.region_code}-iam-role-github-actions-deploy"
+  name = "${local.environment}-iam-role-github-actions-deploy"
 
   assume_role_policy = data.aws_iam_policy_document.github_oidc_role_policy.json
 
@@ -35,7 +35,7 @@ resource "aws_iam_policy" "github_actions_deploy_policy" {
     Statement = [
       {
         Sid = "AllowCommonDeploymentServices",
-        Action = [
+        Action = [ // Include only necessary permissions
           "ec2:*",
           "s3:*",
           "rds:*",
@@ -54,7 +54,7 @@ resource "aws_iam_policy" "github_actions_deploy_policy" {
           "elasticbeanstalk:*",
           "kinesis:*",
           "logs:*",
-          "events:*",          // Include only necessary permissions
+          "events:*",          
           "iam:*",
           "secretsmanager:*",
           "ssm:*",

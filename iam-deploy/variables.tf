@@ -32,6 +32,6 @@ variable "aws_region" {
 }
 
 variable "company"     { default = "pnjlavtech" }
-# variable "environment" { default = "prod" }
-variable "region_code" { default = "usw2" }
+# variable "environment" set via terraform workspace which is how this module is deployed
+variable "region_code" { default = "glob" }
 variable "purpose"     { default = "iam-role-github-actions" }
