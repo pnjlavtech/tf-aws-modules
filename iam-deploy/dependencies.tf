@@ -1,7 +1,8 @@
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_openid_connect_provider" "github" {
   url = "${var.oidc_provider_url}"
 }
-
 
 data "aws_iam_policy_document" "github_oidc_role_policy" {
   statement {

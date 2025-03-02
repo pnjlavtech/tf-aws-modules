@@ -97,6 +97,15 @@ resource "aws_iam_policy" "github_actions_deploy_policy" {
           "ce:*",],
         Effect   = "Deny",
         Resource = "*"
+      },
+      # add this permission after the cross-account roles are created in the management account.
+      {
+        Sid = "AssumeManagementRole",
+        Action = [
+          "sts:AssumeRole"
+        ],
+        Effect   = "Allow",
+        Resource = ["arn:aws:iam::${var.management_account_id}:role/${local.environment}-cross-acct-management-role"]
       }
     ]
   })
@@ -114,7 +123,4 @@ resource "aws_iam_role_policy_attachment" "github_actions_deploy_policy_attachme
   role       = aws_iam_role.github_actions_deploy_role.name
   policy_arn = aws_iam_policy.github_actions_deploy_policy.arn
 }
-
-
-
 
