@@ -78,6 +78,30 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@main
 
+      - name: Get Module Name
+        run: |
+          module_name="${GITHUB_REF#refs/heads/}"
+          echo "Module name is: $module_name"
+
+
+      - name: Prepare Initial Tag if Needed
+        run: |        
+          # Check if there are any existing tags
+          if [ -z "$(git tag)" ]; then
+            echo "No tags found, creating initial tag v0.0.0"
+            if [ -n "$module_name" ]; then
+              TAG_NAME="v0.0.0--${module_name}"
+            else
+              TAG_NAME="v0.0.0"
+            fi
+            echo "Using tag: $TAG_NAME"
+            git tag "$TAG_NAME"
+            git push origin "$TAG_NAME"
+          else
+            echo "Existing tags found:"
+            git tag
+          fi
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -100,7 +124,7 @@ jobs:
         id: changelog
         run: |
           # Use standard-version in dry-run mode to generate changelog output.
-          CHANGELOG=$(npx conventional-changelog -p angular --infile=CHANGELOG.md --lerna-package your-tf-module --skip-commit)
+          CHANGELOG=$(npx conventional-changelog -p angular --infile=CHANGELOG.md --lerna-package ${module_name} --skip-commit)
           echo "Generated changelog:"
           echo "${CHANGELOG}"
           # Set the changelog as an output. (Using $GITHUB_OUTPUT as recommended)
@@ -111,3 +135,6 @@ jobs:
           NEW_VERSION=${{ steps.bump.outputs.new_version }}
           git tag $NEW_VERSION
           git push origin $NEW_VERSION
+
+
+
