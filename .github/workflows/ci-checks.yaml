@@ -23,8 +23,7 @@ jobs:
           terraform_version: '1.9.2'
 
       - name: Terraform Format Check
-        # Assuming your local convention is that "terraform fmt -check" is your 'tformat'
-        run: terraform fmt -check -recursive
+        run: terraform fmt -check
 
       - name: Terraform Validate
         run: terraform validate
@@ -42,10 +41,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 

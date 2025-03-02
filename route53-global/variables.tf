@@ -22,16 +22,11 @@ variable "env" {
   default     = "dev"
 }
 
-# variable "mgmnt_acct_id" {
-#   description = "AWS Account ID for the management account"
-#   type        = string
-#   default     = "123456789123"
-# }
-
-# variable "aws_account_id" {
-#   description = "AWS Account ID for a non-prod account"
-#   type        = string
-# }
+variable "mgmt_acct_id" {
+  description = "AWS Account ID for the management account"
+  type        = string
+  default     = ""
+}
 
 variable "non_prod_name_servers" {
   description = "Name servers for a given subdomain"
@@ -44,7 +39,6 @@ variable "public_domain" {
   type        = string
   default     = "domain.com"
 }
-
 
 
 variable "company"     { default = "pnjlavtech" }
