@@ -17,7 +17,7 @@ variable "github_repository" {
 variable "management_account_id" {
   description = "AWS management account ID"
   type        = string
-  default     = "905418080677"  
+  default     = ""  
 }
 
 

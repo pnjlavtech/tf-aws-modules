@@ -27,11 +27,6 @@ data "aws_iam_policy_document" "github_oidc_role_policy" {
       ]
     }
   }
-  statement {
-    effect = "Allow"
-    actions = ["sts:AssumeRole"]
-    resources = ["arn:aws:iam::${var.management_account_id}:role/management-role"]
-  }
 }
 
 
