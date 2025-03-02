@@ -112,6 +112,3 @@ resource "aws_iam_role_policy_attachment" "github_actions_deploy_policy_attachme
   policy_arn = aws_iam_policy.github_actions_deploy_policy.arn
 }
 
-
-
-
