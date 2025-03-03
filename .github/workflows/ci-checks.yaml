@@ -86,9 +86,12 @@ jobs:
 
       - name: Get Module Name
         run: |
-          module_name="${GITHUB_REF#refs/heads/}"
+          if [[ "$GITHUB_REF" == "refs/pull/"* ]]; then
+            module_name="${GITHUB_HEAD_REF}"
+          else
+            module_name="${GITHUB_REF#refs/heads/}"
+          fi
           echo "Module name is: $module_name"
-
 
       - name: Prepare Initial Tag if Needed
         run: |        
@@ -124,8 +127,8 @@ jobs:
       - name: Bump Version with Commitizen
         id: bump
         run: |
-          # Use commitizen to bump the version according to conventional commits.
-          cz bump
+          # Use standard-version to bump the version according to conventional commits.
+          standard-version --no-verify
           # Capture the latest tag as the new version.
           NEW_VERSION=$(git describe --tags --abbrev=0)
           echo "New version is ${NEW_VERSION}"
