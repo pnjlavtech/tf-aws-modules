@@ -86,6 +86,9 @@ jobs:
 
       - name: Get Module Name
         run: |
+
+      - name: Prepare Initial Tag if Needed
+        run: |        
           if [[ "$GITHUB_REF" == "refs/pull/"* ]]; then
             module_name="${GITHUB_HEAD_REF}"
           else
@@ -93,8 +96,6 @@ jobs:
           fi
           echo "Module name is: $module_name"
 
-      - name: Prepare Initial Tag if Needed
-        run: |        
           # Set the remote URL to include the token for authentication
           git remote set-url origin https://x-access-token:${GH_PAT}@github.com/pnjlavtech/tf-aws-modules.git
 
@@ -106,8 +107,10 @@ jobs:
             echo "No tags found, creating initial tag v0.0.0"
             if [ -n "$module_name" ]; then
               TAG_NAME="v0.0.0--${module_name}"
+              echo $TAG_NAME
             else
               TAG_NAME="v0.0.0"
+              echo $TAG_NAME
             fi
             echo "Using tag: $TAG_NAME"
             git tag "$TAG_NAME"
@@ -116,12 +119,12 @@ jobs:
             echo "Existing tags found:"
             git tag
             # Check if the specific tag already exists
-            if git rev-parse "v0.0.0" >/dev/null 2>&1; then
-              echo "Tag v0.0.0 already exists, not creating a new tag."
+            if git rev-parse "v0.0.0--${module_name}" >/dev/null 2>&1; then
+              echo "Tag v0.0.0--${module_name} already exists, not creating a new tag."
             else
-              echo "Creating new tag v0.0.0"
-              git tag "v0.0.0"
-              git push origin "v0.0.0"
+              echo "Creating new tag v0.0.0--${module_name}"
+              git tag "v0.0.0--${module_name}"
+              git push origin "v0.0.0--${module_name}"
             fi
           fi
         env:
