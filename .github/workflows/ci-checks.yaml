@@ -157,8 +157,10 @@ jobs:
           CHANGELOG=$(npx conventional-changelog -p angular --infile=CHANGELOG.md --lerna-package ${module_name} --skip-commit)
           echo "Generated changelog:"
           echo "${CHANGELOG}"
+          # Escape newlines and other problematic characters in the changelog.
+          ESCAPED_CHANGELOG=$(echo "${CHANGELOG}" | sed ':a;N;$!ba;s/\n/\\n/g' | sed 's/"/\\"/g')
           # Set the changelog as an output. (Using $GITHUB_OUTPUT as recommended)
-          echo "changelog=${CHANGELOG}" >> $GITHUB_OUTPUT
+          echo "changelog=${ESCAPED_CHANGELOG}" >> $GITHUB_OUTPUT
 
       - name: Tag Repository with New Version
         run: |
