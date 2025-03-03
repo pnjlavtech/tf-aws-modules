@@ -93,7 +93,7 @@ jobs:
       - name: Prepare Initial Tag if Needed
         run: |        
           # Set the remote URL to include the token for authentication
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/pnjlavtech/tf-aws-modules.git
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/pnjlavtech/tf-aws-modules.git
           # Check if there are any existing tags
           if [ -z "$(git tag)" ]; then
             echo "No tags found, creating initial tag v0.0.0"
@@ -110,7 +110,7 @@ jobs:
             git tag
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GH_PAT: ${{ secrets.GH_PAT }}
         
 
       - name: Setup Node.js
