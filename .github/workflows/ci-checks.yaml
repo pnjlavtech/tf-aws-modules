@@ -81,6 +81,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@main
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -161,7 +163,7 @@ jobs:
           echo "Generated changelog:"
           echo "${CHANGELOG}"
           # Escape newlines and other problematic characters in the changelog.
-          ESCAPED_CHANGELOG=$(echo "${CHANGELOG}" | sed ':a;N;$!ba;s/\n/\\n/g' | sed 's/"/\\"/g')
+          ESCAPED_CHANGELOG=$(echo "${CHANGELOG}" | sed ':a;N;$!ba;s/\\n/\\\\n/g' | sed 's/"/\\"/g')
           # Set the changelog as an output. (Using $GITHUB_OUTPUT as recommended)
           echo "changelog=${ESCAPED_CHANGELOG}" >> $GITHUB_OUTPUT
 
@@ -194,4 +196,3 @@ jobs:
           working-dir: .
           output-method: replace
           git-push: "true"
-        
