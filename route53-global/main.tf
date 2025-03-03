@@ -10,19 +10,20 @@ terraform {
 }
 
 
-provider "aws" {
-  region = "us-west-2"
-}
+# provider "aws" {
+#   alias  = "default"
+#   region = "us-west-2"
+# }
 
-provider "aws" {
-  alias  = "management"
-  region = "us-west-2"
+# provider "aws" {
+#   alias  = "management"
+#   region = "us-west-2"
 
-  assume_role {
-    role_arn = "arn:aws:iam::${var.mgmt_acct_id}:role/${var.env}-cross-acct-management-role"
-    session_name = "${var.env}-assume-cross-acct-tf-session"
-  }
-}
+#   assume_role {
+#     role_arn = "arn:aws:iam::${var.mgmt_acct_id}:role/${var.env}-cross-acct-management-role"
+#     session_name = "${var.env}-assume-cross-acct-tf-session"
+#   }
+# }
 
 
 resource "aws_route53_zone" "this" {
@@ -44,7 +45,7 @@ resource "aws_route53_zone" "root_zone" {
 
 # Create "Delegating records" (in the management account by the env gha deploy role)
 resource "aws_route53_record" "this" {
-  provider = "management"
+  provider = management
   zone_id  = aws_route53_zone.root_zone.zone_id
   name     = "${var.env}"
   type     = "NS"
