@@ -146,7 +146,7 @@ jobs:
           # Use standard-version to bump the version according to conventional commits.
           standard-version --no-verify
           # Capture the latest tag as the new version.
-          NEW_VERSION=$(git describe --tags --abbrev=0)
+          NEW_VERSION="$(git describe --tags --abbrev=0)--${module_name}"
           echo "New version is ${NEW_VERSION}"
           echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
 
