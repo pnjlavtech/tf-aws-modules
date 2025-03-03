@@ -13,14 +13,6 @@ permissions:
   id-token: write # Required for OIDC authentication
   # (Other minimal permissions as needed)
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-
-# inputs:
-#   gh_pat:
-#     description: "GitHub Personal Access Token"
-#     required: true
-
 
 
 jobs:
@@ -118,7 +110,7 @@ jobs:
             git tag
           fi
         env:
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         
 
       - name: Setup Node.js
@@ -154,8 +146,6 @@ jobs:
           NEW_VERSION=${{ steps.bump.outputs.new_version }}
           git tag $NEW_VERSION
           git push origin $NEW_VERSION
-        env:
-          GITHUB_TOKEN: ${{ env.GH_PAT }}
   
 
 
