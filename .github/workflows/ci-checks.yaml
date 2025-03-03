@@ -84,9 +84,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@main
 
-      - name: Get Module Name
-        run: |
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
+      - name: Install Commitizen and Standard Version
+        run: npm install -g commitizen standard-version
+  
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+  
       - name: Prepare Initial Tag if Needed
         run: |        
           if [[ "$GITHUB_REF" == "refs/pull/"* ]]; then
@@ -95,49 +105,40 @@ jobs:
             module_name="${GITHUB_REF#refs/heads/}"
           fi
           echo "Module name is: $module_name"
-
+  
           # Set the remote URL to include the token for authentication
           git remote set-url origin https://x-access-token:${GH_PAT}@github.com/pnjlavtech/tf-aws-modules.git
-
+  
           # Fetch all tags from the remote repository
           git fetch --tags
-
+  
+          # Form the initial tag name
+          if [ -n "$module_name" ]; then
+            TAG_NAME="v0.0.0--${module_name}"
+          else
+            TAG_NAME="v0.0.0"
+          fi
+          echo "Using tag: $TAG_NAME"
+  
           # Check if there are any existing tags
           if [ -z "$(git tag)" ]; then
-            echo "No tags found, creating initial tag v0.0.0"
-            if [ -n "$module_name" ]; then
-              TAG_NAME="v0.0.0--${module_name}"
-              echo $TAG_NAME
-            else
-              TAG_NAME="v0.0.0"
-              echo $TAG_NAME
-            fi
-            echo "Using tag: $TAG_NAME"
+            echo "No tags found, creating initial tag $TAG_NAME"
             git tag "$TAG_NAME"
             git push origin "$TAG_NAME"
           else
             echo "Existing tags found:"
             git tag
             # Check if the specific tag already exists
-            if git rev-parse "v0.0.0--${module_name}" >/dev/null 2>&1; then
-              echo "Tag v0.0.0--${module_name} already exists, not creating a new tag."
+            if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+              echo "Tag $TAG_NAME already exists, not creating a new tag."
             else
-              echo "Creating new tag v0.0.0--${module_name}"
-              git tag "v0.0.0--${module_name}"
-              git push origin "v0.0.0--${module_name}"
+              echo "Creating new tag $TAG_NAME"
+              git tag "$TAG_NAME"
+              git push origin "$TAG_NAME"
             fi
           fi
         env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-        
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Commitizen Tools and Standard Version
-        run: npm install -g commitizen standard-version
+          GH_PAT: ${{ secrets.GH_PAT }}        
 
       - name: Bump Version with Commitizen
         id: bump
