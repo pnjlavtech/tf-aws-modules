@@ -150,7 +150,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.13/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'iam:CreateServiceLinkedRole' on wildcarded resource '*'",
+			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
@@ -173,7 +173,7 @@
 				"https://aquasecurity.github.io/tfsec/v1.28.13/checks/aws/iam/no-policy-wildcards/",
 				"https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document"
 			],
-			"description": "IAM policy document uses sensitive action 'elasticloadbalancing:SetWebAcl' on wildcarded resource '*'",
+			"description": "IAM policy document uses sensitive action 'iam:CreateServiceLinkedRole' on wildcarded resource '*'",
 			"severity": "HIGH",
 			"warning": false,
 			"status": 0,
