@@ -97,6 +97,10 @@ jobs:
         run: |        
           # Set the remote URL to include the token for authentication
           git remote set-url origin https://x-access-token:${GH_PAT}@github.com/pnjlavtech/tf-aws-modules.git
+
+          # Fetch all tags from the remote repository
+          git fetch --tags
+
           # Check if there are any existing tags
           if [ -z "$(git tag)" ]; then
             echo "No tags found, creating initial tag v0.0.0"
@@ -111,6 +115,14 @@ jobs:
           else
             echo "Existing tags found:"
             git tag
+            # Check if the specific tag already exists
+            if git rev-parse "v0.0.0" >/dev/null 2>&1; then
+              echo "Tag v0.0.0 already exists, not creating a new tag."
+            else
+              echo "Creating new tag v0.0.0"
+              git tag "v0.0.0"
+              git push origin "v0.0.0"
+            fi
           fi
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
