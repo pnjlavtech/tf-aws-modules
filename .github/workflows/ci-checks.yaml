@@ -6,7 +6,11 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
+  issues: write  
+  checks: write
+  id-token: write # Required for OIDC authentication
   # (Other minimal permissions as needed)
 
 jobs:
@@ -23,8 +27,7 @@ jobs:
           terraform_version: '1.9.2'
 
       - name: Terraform Format Check
-        # Assuming your local convention is that "terraform fmt -check" is your 'tformat'
-        run: terraform fmt -check -recursive
+        run: terraform fmt -check
 
       - name: Terraform Validate
         run: terraform validate
@@ -42,10 +45,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -84,32 +87,110 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Commitizen Tools and Standard Version
-        run: npm install -g commitizen standard-version
+      - name: Install Commitizen, Standard Version, and Conventional Changelog
+        run: npm install -g commitizen standard-version conventional-changelog-cli
+      
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+  
+      - name: Prepare Initial Tag if Needed
+        id: prepare
+        run: |        
+          if [[ "$GITHUB_REF" == "refs/pull/"* ]]; then
+            module_name="${GITHUB_HEAD_REF}"
+          else
+            module_name="${GITHUB_REF#refs/heads/}"
+          fi
+          echo "Module name is: $module_name"
+          echo "::set-output name=module_name::${module_name}"
+  
+          # Set the remote URL to include the token for authentication
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/pnjlavtech/tf-aws-modules.git
+  
+          # Fetch all tags from the remote repository
+          git fetch --tags
+  
+          # Form the initial tag name
+          if [ -n "$module_name" ]; then
+            TAG_NAME="v0.0.0--${module_name}"
+          else
+            TAG_NAME="v0.0.0"
+          fi
+          echo "Using tag: $TAG_NAME"
+  
+          # Check if there are any existing tags
+          if [ -z "$(git tag)" ]; then
+            echo "No tags found, creating initial tag $TAG_NAME"
+            git tag "$TAG_NAME"
+            git push origin "$TAG_NAME"
+          else
+            echo "Existing tags found:"
+            git tag
+            # Check if the specific tag already exists
+            if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+              echo "Tag $TAG_NAME already exists, not creating a new tag."
+            else
+              echo "Creating new tag $TAG_NAME"
+              git tag "$TAG_NAME"
+              git push origin "$TAG_NAME"
+            fi
+          fi
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}        
 
-      - name: Bump Version with Commitizen
+      - name: Bump Version with Standard Version
         id: bump
         run: |
-          # Use commitizen to bump the version according to conventional commits.
-          # The --yes flag avoids interactive prompts.
-          cz bump --yes
+          # Use standard-version to bump the version according to conventional commits.
+          standard-version --no-verify
           # Capture the latest tag as the new version.
-          NEW_VERSION=$(git describe --tags --abbrev=0)
+          module_name=${{ steps.prepare.outputs.module_name }}
+          NEW_VERSION="$(git describe --tags --abbrev=0)--${module_name}"
           echo "New version is ${NEW_VERSION}"
           echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Generate Changelog Message
         id: changelog
         run: |
-          # Use standard-version in dry-run mode to generate changelog output.
-          CHANGELOG=$(npx conventional-changelog -p angular --infile=CHANGELOG.md --lerna-package your-tf-module --skip-commit)
+          module_name=${{ steps.prepare.outputs.module_name }}
+          # Use conventional-changelog-cli in dry-run mode to generate changelog output.
+          CHANGELOG=$(npx conventional-changelog -p angular --infile=CHANGELOG.md --lerna-package="${module_name}" --skip-commit)
           echo "Generated changelog:"
           echo "${CHANGELOG}"
+          # Escape newlines and other problematic characters in the changelog.
+          ESCAPED_CHANGELOG=$(echo "${CHANGELOG}" | sed ':a;N;$!ba;s/\n/\\n/g' | sed 's/"/\\"/g')
           # Set the changelog as an output. (Using $GITHUB_OUTPUT as recommended)
-          echo "changelog=${CHANGELOG}" >> $GITHUB_OUTPUT
+          echo "changelog=${ESCAPED_CHANGELOG}" >> $GITHUB_OUTPUT
 
       - name: Tag Repository with New Version
         run: |
           NEW_VERSION=${{ steps.bump.outputs.new_version }}
           git tag $NEW_VERSION
           git push origin $NEW_VERSION
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+
+  docs:
+    name: "Generate docs"
+    needs: [versioning]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
+        with:
+          github_token: ${{ github.token }}
+            
+      - name: Render terraform docs inside the README.md and push changes back to PR branch
+        uses: terraform-docs/gh-actions@main
+        with:
+          working-dir: .
+          output-method: replace
+          git-push: "true"
+        
