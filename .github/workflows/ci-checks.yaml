@@ -89,9 +89,9 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Commitizen and Standard Version
-        run: npm install -g commitizen standard-version
-  
+      - name: Install Commitizen, Standard Version, and Conventional Changelog
+        run: npm install -g commitizen standard-version conventional-changelog-cli
+      
       - name: Configure Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -140,7 +140,7 @@ jobs:
         env:
           GH_PAT: ${{ secrets.GH_PAT }}        
 
-      - name: Bump Version with Commitizen
+      - name: Bump Version with Standard Version
         id: bump
         run: |
           # Use standard-version to bump the version according to conventional commits.
@@ -153,7 +153,7 @@ jobs:
       - name: Generate Changelog Message
         id: changelog
         run: |
-          # Use standard-version in dry-run mode to generate changelog output.
+          # Use conventional-changelog-cli in dry-run mode to generate changelog output.
           CHANGELOG=$(npx conventional-changelog -p angular --infile=CHANGELOG.md --lerna-package ${module_name} --skip-commit)
           echo "Generated changelog:"
           echo "${CHANGELOG}"
@@ -165,6 +165,5 @@ jobs:
           NEW_VERSION=${{ steps.bump.outputs.new_version }}
           git tag $NEW_VERSION
           git push origin $NEW_VERSION
-  
-
-
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
