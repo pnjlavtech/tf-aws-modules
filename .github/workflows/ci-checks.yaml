@@ -7,10 +7,14 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
+  issues: write  
+  checks: write
+  id-token: write # Required for OIDC authentication
   # (Other minimal permissions as needed)
 
 env:
-  GH_PAT: ${{ secrets.GH_PAT }}
+  GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 
 # inputs:
 #   gh_pat:
@@ -114,7 +118,7 @@ jobs:
             git tag
           fi
         env:
-          GITHUB_TOKEN: ${{ env.GH_PAT }}
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
         
 
       - name: Setup Node.js
