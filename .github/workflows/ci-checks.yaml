@@ -6,8 +6,14 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
+  issues: write  
+  checks: write
+  id-token: write # Required for OIDC authentication
   # (Other minimal permissions as needed)
+
+
 
 jobs:
   tf_checks:
@@ -23,8 +29,7 @@ jobs:
           terraform_version: '1.9.2'
 
       - name: Terraform Format Check
-        # Assuming your local convention is that "terraform fmt -check" is your 'tformat'
-        run: terraform fmt -check -recursive
+        run: terraform fmt -check
 
       - name: Terraform Validate
         run: terraform validate
@@ -42,10 +47,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -79,6 +84,35 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@main
 
+      - name: Get Module Name
+        run: |
+          module_name="${GITHUB_REF#refs/heads/}"
+          echo "Module name is: $module_name"
+
+
+      - name: Prepare Initial Tag if Needed
+        run: |        
+          # Set the remote URL to include the token for authentication
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/pnjlavtech/tf-aws-modules.git
+          # Check if there are any existing tags
+          if [ -z "$(git tag)" ]; then
+            echo "No tags found, creating initial tag v0.0.0"
+            if [ -n "$module_name" ]; then
+              TAG_NAME="v0.0.0--${module_name}"
+            else
+              TAG_NAME="v0.0.0"
+            fi
+            echo "Using tag: $TAG_NAME"
+            git tag "$TAG_NAME"
+            git push origin "$TAG_NAME"
+          else
+            echo "Existing tags found:"
+            git tag
+          fi
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -91,8 +125,7 @@ jobs:
         id: bump
         run: |
           # Use commitizen to bump the version according to conventional commits.
-          # The --yes flag avoids interactive prompts.
-          cz bump --yes
+          cz bump
           # Capture the latest tag as the new version.
           NEW_VERSION=$(git describe --tags --abbrev=0)
           echo "New version is ${NEW_VERSION}"
@@ -102,7 +135,7 @@ jobs:
         id: changelog
         run: |
           # Use standard-version in dry-run mode to generate changelog output.
-          CHANGELOG=$(npx conventional-changelog -p angular --infile=CHANGELOG.md --lerna-package your-tf-module --skip-commit)
+          CHANGELOG=$(npx conventional-changelog -p angular --infile=CHANGELOG.md --lerna-package ${module_name} --skip-commit)
           echo "Generated changelog:"
           echo "${CHANGELOG}"
           # Set the changelog as an output. (Using $GITHUB_OUTPUT as recommended)
@@ -113,3 +146,6 @@ jobs:
           NEW_VERSION=${{ steps.bump.outputs.new_version }}
           git tag $NEW_VERSION
           git push origin $NEW_VERSION
+  
+
+
