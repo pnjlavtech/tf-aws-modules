@@ -44,7 +44,7 @@ resource "aws_route53_zone" "root_zone" {
 
 # Create "Delegating records" (in the management account by the env gha deploy role)
 resource "aws_route53_record" "this" {
-  provider = aws.management
+  provider = "management"
   zone_id  = aws_route53_zone.root_zone.zone_id
   name     = "${var.env}"
   type     = "NS"
