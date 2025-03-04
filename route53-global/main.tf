@@ -26,9 +26,20 @@ terraform {
 # }
 
 
+locals {
+  aws_provider = {
+    dev  = aws.dev
+    stg  = aws.stg
+    prod = aws.prod
+  }
+}
+
+
 resource "aws_route53_zone" "this" {
   name     = "${var.env}.${var.public_domain}"
 
+  # Use the selected provider from the local map
+  provider = local.aws_provider[var.env]
   tags = {
     Company     = var.company
     Environment = var.env
@@ -39,7 +50,8 @@ resource "aws_route53_zone" "this" {
 
 
 data "aws_route53_zone" "root_zone" {
-  name = "${var.public_domain}"
+  provider = aws.management
+  name     = "${var.public_domain}"
 }
 
 
