@@ -38,15 +38,15 @@ resource "aws_route53_zone" "this" {
 }
 
 
-resource "aws_route53_zone" "root_zone" {
+data "aws_route53_zone" "root_zone" {
   name = "${var.public_domain}"
 }
 
 
 # Create "Delegating records" (in the management account by the env gha deploy role)
 resource "aws_route53_record" "this" {
-  provider = management
-  zone_id  = aws_route53_zone.root_zone.zone_id
+  provider = aws.management
+  zone_id  = data.aws_route53_zone.root_zone.zone_id
   name     = "${var.env}"
   type     = "NS"
   ttl      = 300
