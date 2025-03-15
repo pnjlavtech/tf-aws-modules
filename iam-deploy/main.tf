@@ -77,6 +77,9 @@ resource "aws_iam_policy" "github_actions_deploy_policy" {
           "servicecatalog:*",
           "servicequotas:*",
           "sts:*",
+          "organizations:DescribeOrganization",
+          "account:ListRegions",
+          "account:GetAccountInformation"
           ],
         Effect   = "Allow",
         Resource = "*"

@@ -20,11 +20,7 @@ data "aws_iam_policy_document" "github_oidc_role_policy" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = [
-        "repo:${var.github_repository}:ref:refs/heads/main",
-        "repo:${var.github_repository}:ref:refs/tags/*",
-        "repo:${var.github_repository}:ref:refs/pull/*"
-      ]
+      values   = ["repo:pnjlavtech/*"]
     }
   }
 }
