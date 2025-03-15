@@ -11,7 +11,7 @@ variable "oidc_provider_url" {
 variable "github_repository" {
   description = "GitHub repository in owner/repo format"
   type        = string
-  default     = "pnjlavtech/*"  
+  default     = ""  
 }
 
 variable "management_account_id" {
