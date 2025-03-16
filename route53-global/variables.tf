@@ -1,8 +1,20 @@
-# variable "create_in_mgmnt_acct" {
-#   description = "Whether to create resources in the non-prod accounts"
-#   type        = bool
-#   default     = false
-# }
+variable "company" {
+  description = "Company name"
+  type        = string
+  default     = ""
+}
+
+variable "domain_name" {
+  description = "Root domain name"
+  type        = string
+  default     = ""
+}
+
+variable "env" {
+  description = "Environment eg dev, stg, prod"
+  type        = string
+  default     = ""
+}
 
 variable "non_prod_create_in_mgmnt_acct" {
   description = "Whether to create resources in the management account"
@@ -14,12 +26,6 @@ variable "create_in_non_prod_acct" {
   description = "Whether to create resources in the non-prod accounts"
   type        = bool
   default     = false
-}
-
-variable "env" {
-  description = "AWS Account / Environment"
-  type        = string
-  default     = "dev"
 }
 
 variable "mgmt_acct_id" {
@@ -34,14 +40,14 @@ variable "non_prod_name_servers" {
   default     = ["ns1.domain.com", "ns2.domain.com"]
 }
 
-variable "public_domain" {
-  description = "Public DNS zone name"
+variable "purpose" {
+  description = "Purpose of this module"
   type        = string
-  default     = "domain.com"
+  default     = ""
 }
 
-
-variable "company"     { default = "pnjlavtech" }
-# variable "environment" set via terraform workspace which is how this module is deployed
-variable "region_code" { default = "glob" }
-variable "purpose"     { default = "" }
+variable "region_code" {
+  description = "Region code, Eg usw2"
+  type        = string
+  default     = ""
+}

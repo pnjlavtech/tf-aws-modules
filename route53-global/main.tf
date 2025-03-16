@@ -10,37 +10,21 @@ terraform {
 }
 
 
-# provider "aws" {
-#   alias  = "default"
-#   region = "us-west-2"
-# }
-
-# provider "aws" {
-#   alias  = "management"
-#   region = "us-west-2"
-
-#   assume_role {
-#     role_arn = "arn:aws:iam::${var.mgmt_acct_id}:role/${var.env}-cross-acct-management-role"
-#     session_name = "${var.env}-assume-cross-acct-tf-session"
-#   }
-# }
-
-
 
 resource "aws_route53_zone" "this" {
-  name     = "${var.env}.${var.public_domain}"
+  name     = "${var.region_code}.${var.env}.${var.domain_name}"
   tags = {
     Company     = var.company
     Environment = var.env
     Region      = var.region_code
-    Purpose     = "route53-zone-public"
+    Purpose     = "route53-zone-public-env-region"
   }
 }
 
 
 data "aws_route53_zone" "root_zone" {
   provider = aws.management
-  name     = "${var.public_domain}"
+  name     = "${var.domain_name}"
 }
 
 
