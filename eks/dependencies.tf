@@ -9,7 +9,7 @@ data "aws_ecrpublic_authorization_token" "token" {
 }
 
 data "aws_route53_zone" "this" {
-  name         = var.public_domain
+  zone_id      = var.zone_id
   private_zone = false
 }
 
