@@ -4,6 +4,12 @@ variable "company" {
   default     = ""
 }
 
+variable "create_in_non_prod_acct" {
+  description = "Whether to create resources in the non-prod accounts"
+  type        = bool
+  default     = false
+}
+
 variable "domain_name" {
   description = "Root domain name"
   type        = string
@@ -16,22 +22,16 @@ variable "env" {
   default     = ""
 }
 
-variable "non_prod_create_in_mgmnt_acct" {
-  description = "Whether to create resources in the management account"
-  type        = bool
-  default     = false
-}
-
-variable "create_in_non_prod_acct" {
-  description = "Whether to create resources in the non-prod accounts"
-  type        = bool
-  default     = false
-}
-
 variable "mgmt_acct_id" {
   description = "AWS Account ID for the management account"
   type        = string
   default     = ""
+}
+
+variable "non_prod_create_in_mgmnt_acct" {
+  description = "Whether to create resources in the management account"
+  type        = bool
+  default     = false
 }
 
 variable "non_prod_name_servers" {
@@ -43,7 +43,7 @@ variable "non_prod_name_servers" {
 variable "purpose" {
   description = "Purpose of this module"
   type        = string
-  default     = ""
+  default     = "route53-zone-public-env-region"
 }
 
 variable "region_code" {
