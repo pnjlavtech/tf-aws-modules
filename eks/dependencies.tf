@@ -8,8 +8,10 @@ data "aws_ecrpublic_authorization_token" "token" {
   provider = aws.virginia
 }
 
+
 data "aws_route53_zone" "this" {
-  zone_id      = var.zone_id
+  # zone_id      = var.zone_id
+  name         = var.domain_name 
   private_zone = false
 }
 
