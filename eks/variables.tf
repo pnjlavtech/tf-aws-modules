@@ -1,5 +1,5 @@
 variable "domain_name" {
-  description = "region-environment domain name"
+  description = "region.environment.domain name"
   type        = string
   default     = ""
 }
@@ -49,6 +49,7 @@ variable "region_code" {
   type        = string
   default     = ""
 }
+
 
 variable "tags" {
   description = "Tags"
