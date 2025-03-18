@@ -221,10 +221,6 @@ resource "aws_iam_policy" "eks_alb_iam_policy" {
       Version = "2012-10-17"
   })
 
-  # tags = merge(var.tags, {
-  #   "Purpose" = "EKS ALB IAM Policy"
-  # })
-
 }
 
 
@@ -287,6 +283,7 @@ resource "aws_iam_role" "eks_alb_iam_role" {
 
   tags = merge(var.tags, {
     "Name"          = "${var.eks_fname}-alb-iam-role"
+    "Purpose"       = "eks-alb-deployment-irsa"
     "K8sKindName"   = "ServiceAccount--${var.eks_fname}-alb-iam-role"
     "DownstreamDep" = "helm-release--alb-ingress"
     "helm-release"  = "alb-ingress"
@@ -321,6 +318,7 @@ resource "aws_iam_role" "eks_external_dns_iam_role" {
 
   tags = merge(var.tags, {
     "Name"          = "${var.eks_fname}-external-dns-iam-role"
+    "Purpose"       = "eks-external-dns-deployment-irsa"
     "K8sKindName"   = "ServiceAccount--${var.eks_fname}-external-dns-iam-role"
     "DownstreamDep" = "helm-release--external-dns"
     "helm-release"  = "external-dns"
@@ -354,6 +352,7 @@ resource "aws_iam_role" "eks_external_secrets_iam_role" {
 
   tags = merge(var.tags, {
     "Name"          = "${var.eks_fname}-external-secrets-iam-role"
+    "Purpose"       = "eks-external-secrets-deployment-irsa"
     "K8sKindName"   = "ServiceAccount--${var.eks_fname}-external-secrets-iam-role"
     "DownstreamDep" = "helm-release--external-secrets"
     "helm-release"  = "external-secrets"
@@ -385,51 +384,37 @@ resource "aws_iam_role_policy_attachment" "eks_external_secrets_iam_role_policy_
 
 
 resource "aws_ssm_parameter" "eks_alb_iam_role_parameter" {
-  name        = "/${var.env}/${var.region}/eks/${var.eks_clus}/alb_iam_role"
+  name        = "/${var.env}/${var.region_code}/eks/${var.eks_clus}/alb_iam_role"
   description = "Parameter that stores the eks_alb_iam_role name ARN"
   value       = aws_iam_role.eks_alb_iam_role.arn
   type        = "String"
 
   tags = merge(var.tags, {
-    Name   = "/${var.env}/${var.region}/eks/${var.eks_clus}/alb_iam_role"
-    Module = "ssm"
+    Name    = "/${var.env}/${var.region_code}/eks/${var.eks_clus}/alb_iam_role"
+    Purpose = "eks-iam-ssm"
   })
 }
 
 resource "aws_ssm_parameter" "eks_external_dns_iam_role_parameter" {
-  name        = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_dns_iam_role"
+  name        = "/${var.env}/${var.region_code}/eks/${var.eks_clus}/external_dns_iam_role"
   description = "Parameter that stores the eks_external_dns_iam_role ARN"
   value       = aws_iam_role.eks_external_dns_iam_role.arn
   type        = "String"
 
   tags = merge(var.tags, {
-    Name   = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_dns_iam_role"
-    Module = "ssm"
+    Name    = "/${var.env}/${var.region_code}/eks/${var.eks_clus}/external_dns_iam_role"
+    Purpose = "eks-iam-ssm"
   })
 }
 
 resource "aws_ssm_parameter" "eks_external_secrets_iam_role_parameter" {
-  name        = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_secrets_iam_role"
+  name        = "/${var.env}/${var.region_code}/eks/${var.eks_clus}/external_secrets_iam_role"
   description = "Parameter that stores the eks_external_secrets_iam_role ARN"
   value       = aws_iam_role.eks_external_secrets_iam_role.arn
   type        = "String"
 
   tags = merge(var.tags, {
-    Name   = "/${var.env}/${var.region}/eks/${var.eks_clus}/external_secrets_iam_role"
-    Module = "ssm"
+    Name    = "/${var.env}/${var.region_code}/eks/${var.eks_clus}/external_secrets_iam_role"
+    Purpose = "eks-iam-ssm"
   })
 }
-
-
-  # value       = jsonencode({
-  #   role_name = aws_iam_role.eks_alb_iam_role.name,
-  #   role_arn  = aws_iam_role.eks_alb_iam_role.arn
-  # })
-  # value       = jsonencode({
-  #   role_name = aws_iam_role.eks_external_dns_iam_role.name,
-  #   role_arn  = aws_iam_role.eks_external_dns_iam_role.arn
-  # })
-  # value       = jsonencode({
-  #   role_name = aws_iam_role.eks_external_secrets_iam_role.name,
-  #   role_arn  = aws_iam_role.eks_external_secrets_iam_role.arn
-  # })

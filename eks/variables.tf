@@ -1,3 +1,9 @@
+variable "domain_name" {
+  description = "region-environment domain name"
+  type        = string
+  default     = ""
+}
+
 variable "eks_clus" {
   description = "Cluster - blue or green"
   type        = string
@@ -7,46 +13,41 @@ variable "eks_clus" {
 variable "eks_cluster_version" {
   description = "Kubernetes version for EKS cluster"
   type        = string
-  default     = "1.3.1"
+  default     = ""
 }
 
 variable "eks_fname" {
   description = "Cluster name for project"
   type        = string
-  default     = "dev-usw2-eks-blue"
+  default     = ""
 }
-
-# "karpenter.sh/discovery" = var.eks_fname
 
 variable "env" {
   description = "Environment"
   type        = string
-  default     = "dev"
+  default     = ""
 }
 
 variable "intra_subnets" {
   description = "List of intra subnet ids"
   type        = list(string)
-
 }
 
 variable "private_subnets" {
   description = "List of private subnet ids"
   type        = list(string)
-
-}
-
-variable "public_domain" {
-  description = "Public DNS zone name"
-  type        = string
-
-  default = "domain.com"
 }
 
 variable "region" {
-  description = "region name for project"
+  description = "region name"
   type        = string
-  default     = "us-west-2"
+  default     = ""
+}
+
+variable "region_code" {
+  description = "region code Eg: usw2 "
+  type        = string
+  default     = ""
 }
 
 variable "tags" {
@@ -60,6 +61,11 @@ variable "tags" {
 variable "vpc_id" {
   description = "VPC ID"
   type        = string
-  default = "vpc-0d92a29a969c4f59d"
+  default     = "vpc-0d92a29a969c4f59d"
 }
-     
+
+variable "zone_id" {
+  description = "AWS R53 zone id for the RegionCode.Environment.domainname"
+  type        = string
+  default     = "234432jkjlskjdsf"
+}
