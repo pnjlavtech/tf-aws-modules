@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "external_dns_iam_policy_document" {
   statement {
     effect    = "Allow"
     actions   = ["route53:ChangeResourceRecordSets"]
-    resources = [data.aws_route53_zone.this.arn]
+    resources = [try(data.aws_route53_zone.this.arn, var.route53_zone_arn)]
   }
   statement {
     effect = "Allow"
