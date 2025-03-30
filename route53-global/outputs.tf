@@ -1,12 +1,13 @@
 output "non_prod_name_servers" {
-  value = aws_route53_zone.this.name_servers
+  value = module.zones.zones.name_servers
 }
 
-output "aws_route53_zone_id" {
-  value = aws_route53_zone.this.zone_id
+output "route53_zone_name_servers" {
+  description = "Name servers of Route53 zone"
+  value       = module.zones.route53_zone_name_servers
 }
 
 output "route53_zone_zone_arn" {
   description = "Zone ARN of Route53 zone"
-  value       = aws_route53_zone.this.route53_zone_zone_arn
+  value       = module.zones.zones.route53_zone_zone_arn
 }

@@ -9,16 +9,32 @@ terraform {
   }
 }
 
+module "zones" {
+  source  = "terraform-aws-modules/route53/aws//modules/zones"
+  version = "~> 3.0"
 
+  zones = {
+    "${var.region_code}.${var.env}.${var.domain_name}" = {
+      comment = "${var.region_code}.${var.env}.${var.domain_name}"
+      tags = {
+        Company     = var.company
+        Environment = var.env
+        Region      = var.region_code
+        Purpose     = "route53-zone-public-env-region"
+      }    
+    }
 
-resource "aws_route53_zone" "this" {
-  name     = "${var.region_code}.${var.env}.${var.domain_name}"
-  tags = {
-    Company     = var.company
-    Environment = var.env
-    Region      = var.region_code
-    Purpose     = "route53-zone-public-env-region"
+    "${var.region_code}-int.${var.env}.${var.domain_name}" = {
+      comment = "${var.region_code}-int.${var.env}.${var.domain_name}"
+      tags = {
+        Company     = var.company
+        Environment = var.env
+        Region      = var.region_code
+        Purpose     = "route53-zone-private-internal-env-region"
+      }    
+    }
   }
+
 }
 
 
@@ -35,7 +51,6 @@ resource "aws_route53_record" "this" {
   name     = "${var.env}"
   type     = "NS"
   ttl      = 300
-  # records  = data.aws_route53_zone.non_prod_name_servers.name_servers
-  records  = aws_route53_zone.this.name_servers
+  records = module.zones.route53_zone_name_servers
 
 }
