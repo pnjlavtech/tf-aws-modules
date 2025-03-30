@@ -39,17 +39,22 @@ variable "private_subnets" {
 }
 
 variable "region" {
-  description = "region name"
+  description = "Region name"
   type        = string
   default     = ""
 }
 
 variable "region_code" {
-  description = "region code Eg: usw2 "
+  description = "Region code Eg: usw2 "
   type        = string
   default     = ""
 }
 
+variable "route53_zone_arn" {
+  description = "Route53 zone arn"
+  type        = string
+  default     = ""
+}
 
 variable "tags" {
   description = "Tags"
@@ -65,8 +70,8 @@ variable "vpc_id" {
   default     = "vpc-0d92a29a969c4f59d"
 }
 
-variable "zone_id" {
-  description = "AWS R53 zone id for the RegionCode.Environment.domainname"
-  type        = string
-  default     = "234432jkjlskjdsf"
-}
+# variable "zone_id" {
+#   description = "AWS R53 zone id for the RegionCode.Environment.domainname"
+#   type        = string
+#   default     = "234432jkjlskjdsf"
+# }
