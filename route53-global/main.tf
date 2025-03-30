@@ -51,6 +51,8 @@ resource "aws_route53_record" "this" {
   name     = "${var.env}"
   type     = "NS"
   ttl      = 300
-  records = module.zones.route53_zone_name_servers
+
+  records = module.zones.aws_route53_zone.this["${var.region_code}.${var.env}.${var.domain_name}"]
+  depends_on = [module.zones]
 
 }
