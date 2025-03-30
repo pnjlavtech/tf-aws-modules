@@ -10,7 +10,6 @@ data "aws_ecrpublic_authorization_token" "token" {
 
 
 data "aws_route53_zone" "this" {
-  # zone_id      = var.zone_id
   name         = var.domain_name 
   private_zone = false
 }
@@ -19,7 +18,7 @@ data "aws_iam_policy_document" "external_dns_iam_policy_document" {
   statement {
     effect    = "Allow"
     actions   = ["route53:ChangeResourceRecordSets"]
-    resources = [try(data.aws_route53_zone.this.arn, var.route53_zone_arn)]
+    resources = [try(data.aws_route53_zone.this.arn, var.route53_zone_zone_arn)]
   }
   statement {
     effect = "Allow"
