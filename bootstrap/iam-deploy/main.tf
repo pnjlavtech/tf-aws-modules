@@ -19,7 +19,7 @@ resource "aws_iam_role" "github_actions_deploy_role" {
   tags = {
     Company     = var.company
     Environment = local.environment
-    Region      = var.region_code
+    RegionCode  = var.region_code
     Purpose     = "iam-role-gha-deploy"
   }
 

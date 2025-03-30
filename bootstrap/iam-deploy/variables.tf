@@ -2,6 +2,7 @@ variable "aws_region" {
   type    = string
   default = "us-west-2"
 }
+
 variable "oidc_provider_url" {
   description = "GitHub url"
   type        = string
