@@ -50,8 +50,8 @@ variable "region_code" {
   default     = ""
 }
 
-variable "route53_zone_arn" {
-  description = "Route53 zone arn"
+variable "route53_zone_zone_arn" {
+  description = "Zone ARN of Route53 zone"
   type        = string
   default     = ""
 }
@@ -69,9 +69,3 @@ variable "vpc_id" {
   type        = string
   default     = "vpc-0d92a29a969c4f59d"
 }
-
-# variable "zone_id" {
-#   description = "AWS R53 zone id for the RegionCode.Environment.domainname"
-#   type        = string
-#   default     = "234432jkjlskjdsf"
-# }
