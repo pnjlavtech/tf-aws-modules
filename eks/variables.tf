@@ -1,5 +1,5 @@
 variable "domain_name" {
-  description = "region.environment.domain name"
+  description = "regioncode.environment.domain name"
   type        = string
   default     = ""
 }
